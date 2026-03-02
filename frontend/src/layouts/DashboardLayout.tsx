@@ -1,32 +1,48 @@
 import type { ReactNode } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 interface DashboardLayoutProps {
   children?: ReactNode;
 }
+
+interface SidebarItemProps {
+  to: string;
+  label: string;
+  end?: boolean;
+}
+
+const SidebarItem = ({ to, label, end }: SidebarItemProps) => {
+  return (
+    <NavLink
+      to={to}
+      end={end}
+      className={({ isActive }) =>
+        `block px-3 py-2 rounded-md transition-colors ${
+          isActive
+            ? "bg-zinc-800 text-blue-500"
+            : "text-zinc-400 hover:bg-zinc-800 hover:text-white"
+        }`
+      }
+    >
+      {label}
+    </NavLink>
+  );
+};
 
 const DashboardLayout = ({}: DashboardLayoutProps) => {
     return (
         <div className="flex min-h-screen bg-zinc-950 text-zinc-100">
             {/* sidebar */}
             <aside className="w-64 bg-zinc-900 border-r border-zinc-800 p-6">
-                <h2 className="text-xl font-semibold mb-8">Arbiter</h2>
-                <nav className="space-y-4 text-sm">
-                    <Link to="/dashboard" className="block hover:text-blue-500">
-                        Overview
-                    </Link>
-                    <Link to="/dashboard/keys" className="block hover:text-blue-500">
-                        API Keys
-                    </Link>
-                    <Link to="/dashboard/rules" className="block hover:text-blue-500">
-                        Rules
-                    </Link>
-                    <Link to="/dashboard/analytics" className="block hover:text-blue-500">
-                        Analytics
-                    </Link>
-                    <Link to="/dashboard/settings" className="block hover:text-blue-500">
-                        Settings
-                    </Link>
+                <h2 className="text-lg font-bold tracking-wide mb-10">
+                    ARBITER
+                </h2>
+                <nav className="space-y-2 text-sm">
+                    <SidebarItem to="/dashboard" label="Overview" end />
+                    <SidebarItem to="/dashboard/keys" label="API Keys" />
+                    <SidebarItem to="/dashboard/rules" label="Rules" />
+                    <SidebarItem to="/dashboard/analytics" label="Analytics" />
+                    <SidebarItem to="/dashboard/settings" label="Settings" />
                 </nav>
             </aside>
 
@@ -42,8 +58,10 @@ const DashboardLayout = ({}: DashboardLayoutProps) => {
                     </div>
                 </header>
 
-                <main className="flex-1 p-8">
-                    <Outlet />
+                <main className="flex-1 p-10">
+                    <div className="max-w-6xl mx-auto">
+                        <Outlet />
+                    </div>
                 </main>
             </div>
         </div>
