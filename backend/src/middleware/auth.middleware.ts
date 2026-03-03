@@ -1,3 +1,18 @@
-import { requireAuth } from "@clerk/express";
+import { getAuth } from "@clerk/express";
 
-export { requireAuth };
+export const requireAuth = (req: any, res: any, next: any) => {
+  const { userId } = getAuth(req);
+
+  if (!userId && process.env.NODE_ENV === "development") {
+    console.log("development");
+    return next();
+  }
+
+  if (!userId) {
+    return res.status(401).json({
+      message: "Unauthorized",
+    });
+  }
+
+  next();
+};
