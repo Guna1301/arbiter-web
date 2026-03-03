@@ -28,6 +28,11 @@ model Project {
   ownerId   String
   owner     User     @relation(fields: [ownerId], references: [id])
 
+  defaultAlgorithm String?
+  whitelist Json?
+  blacklist Json?
+  abuse     Json?
+
   apiKeys   ApiKey[]
   rules     Rule[]
 
@@ -46,15 +51,17 @@ model ApiKey {
 }
 
 model Rule {
-  id         String   @id @default(uuid())
-  name       String
-  limit      Int
-  window     Int
-  algorithm  String?
-  config     Json?
+  id        String @id @default(uuid())
+  name      String
+  limit     Int
+  window    Int
 
-  projectId  String
-  project    Project  @relation(fields: [projectId], references: [id])
+  algorithm String?
+  policy    Json?
+  abuse     Json?
+
+  projectId String
+  project   Project @relation(fields:[projectId],references:[id])
 
   createdAt  DateTime @default(now())
 }
