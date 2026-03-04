@@ -7,6 +7,7 @@ import { clerkMiddleware } from "@clerk/express";
 import projectRoutes from "./routes/project.routes.js";
 import apiKeyRoutes from "./routes/apikey.routes.js";
 import ruleRoutes from "./routes/rule.routes.js";
+import gatewayRoutes from "./routes/gateway.routes.js";
 
 dotenv.config();
 
@@ -23,6 +24,8 @@ app.get('/health',(req,res)=>{
 app.use("/api/projects",projectRoutes);
 app.use("/api/apikeys",apiKeyRoutes);
 app.use("/api/rules",ruleRoutes);
+
+app.use("/gateway", gatewayRoutes);
 
 const PORT = process.env.PORT || 5000;
 
