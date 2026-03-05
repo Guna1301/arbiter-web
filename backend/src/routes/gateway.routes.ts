@@ -4,31 +4,36 @@ import { getProjectConfig } from "../services/config.service.js";
 
 const router = Router();
 
-router.post("/protect",validateApiKey, async (req:any,res)=>{
+router.post("/protect", validateApiKey, async (req:any,res)=>{
 
-    const { rule } = req.body;
+  const { rule } = req.body;
 
-    const projectId = req.project.id;
+  const projectId = req.project.id;
 
-    const config = await getProjectConfig(projectId);
+  const config = await getProjectConfig(projectId);
 
-    if(!config){
-      return res.status(404).json({
-        message:"Project config not found"
-      });
-    }
-
-    const ruleConfig = config.rules.find(
-      (r:any)=> r.name === rule
-    );
-
-    res.json({
-      global: config.global,
-      rule: ruleConfig
+  if(!config){
+    return res.status(404).json({
+      message:"Project config not found"
     });
-
   }
-);
+
+  const ruleConfig = config.rules.find(
+    (r:any)=> r.name === rule
+  );
+
+  if(!ruleConfig){
+    return res.status(404).json({
+      message:"Rule not found"
+    });
+  }
+
+  res.json({
+    global: config.global,
+    rule: ruleConfig
+  });
+
+});
 
 router.get("/config", validateApiKey, async (req:any,res)=>{
 
