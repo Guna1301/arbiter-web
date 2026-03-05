@@ -4,10 +4,7 @@ import { getProjectConfig } from "../services/config.service.js";
 
 const router = Router();
 
-router.post(
-  "/protect",
-  validateApiKey,
-  async (req:any,res)=>{
+router.post("/protect",validateApiKey, async (req:any,res)=>{
 
     const { rule } = req.body;
 
@@ -32,5 +29,19 @@ router.post(
 
   }
 );
+
+router.get("/config", validateApiKey, async (req:any,res)=>{
+
+  const projectId = req.project.id;
+
+  const config = await getProjectConfig(projectId);
+
+  res.json({
+    version: req.project.configVersion,
+    global: config.global,
+    rules: config.rules
+  });
+
+});
 
 export default router;

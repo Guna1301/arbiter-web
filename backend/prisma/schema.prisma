@@ -33,6 +33,8 @@ model Project {
   blacklist Json?
   abuse     Json?
 
+  configVersion    Int      @default(1)
+
   apiKeys   ApiKey[]
   rules     Rule[]
 

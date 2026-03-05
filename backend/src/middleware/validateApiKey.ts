@@ -7,36 +7,39 @@ export const validateApiKey = async (req:any,res:any,next:any)=>{
 
     const apiKey = req.headers["x-api-key"];
 
-    if(!apiKey){
-      return res.status(401).json({
-        message:"API key missing"
-      });
-    }
-
-    const hash = crypto
-      .createHash("sha256")
-      .update(apiKey)
-      .digest("hex");
-
-    const keyRecord = await prisma.apiKey.findFirst({
-      where:{
-        keyHash:hash,
-        status:"active"
-      },
-      include:{
-        project:true
-      }
+  if(!apiKey){
+    return res.status(401).json({
+      message:"API key missing"
     });
+  }
 
-    if(!keyRecord){
-      return res.status(403).json({
-        message:"Invalid API key"
-      });
+  const prefix = apiKey.split("_").slice(0,2).join("_");
+
+  const hash = crypto
+    .createHash("sha256")
+    .update(apiKey)
+    .digest("hex");
+
+  const keyRecord = await prisma.apiKey.findFirst({
+    where:{
+      prefix: prefix,
+      keyHash: hash,
+      status:"active"
+    },
+    include:{
+      project:true
     }
+  });
 
-    req.project = keyRecord.project;
+  if(!keyRecord){
+    return res.status(403).json({
+      message:"Invalid API key"
+    });
+  }
 
-    next();
+  req.project = keyRecord.project;
+
+  next();
 
   }catch(err){
     console.error(err);
