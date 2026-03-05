@@ -1,29 +1,33 @@
 import { Router } from "express";
 import { validateApiKey } from "../middleware/validateApiKey.js";
-import { prisma } from "../config/db.js";
+import { getProjectConfig } from "../services/config.service.js";
 
 const router = Router();
 
-router.post("/protect",validateApiKey,
+router.post(
+  "/protect",
+  validateApiKey,
   async (req:any,res)=>{
-    const { rule } = req.body;
-    const project = req.project;
 
-    const ruleConfig = await prisma.rule.findFirst({
-        where:{
-          projectId:project.id,
-          name:rule
-        }
+    const { rule } = req.body;
+
+    const projectId = req.project.id;
+
+    const config = await getProjectConfig(projectId);
+
+    if(!config){
+      return res.status(404).json({
+        message:"Project config not found"
       });
+    }
+
+    const ruleConfig = config.rules.find(
+      (r:any)=> r.name === rule
+    );
 
     res.json({
-      global:{
-        algorithm:project.defaultAlgorithm,
-        whitelist:project.whitelist,
-        blacklist:project.blacklist,
-        abuse:project.abuse
-      },
-      rule:ruleConfig
+      global: config.global,
+      rule: ruleConfig
     });
 
   }
