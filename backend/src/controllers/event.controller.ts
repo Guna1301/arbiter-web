@@ -6,10 +6,11 @@ export const createEvent = async (req: any, res: Response) => {
   try {
 
     const projectId = req.project.id;
-
-    const event = await eventService.createEvent(
+    const events = req.body.events;
+    
+    const event = await eventService.createEvents(
       projectId,
-      req.body
+      events
     );
 
     res.json(event);

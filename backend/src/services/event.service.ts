@@ -6,18 +6,18 @@ export interface EventPayload {
   allowed: boolean;
 }
 
-export const createEvent = async (
+export const createEvents = async (
   projectId: string,
-  data: EventPayload
+  events: EventPayload[]
 ) => {
 
-  return prisma.event.create({
-    data: {
+  await prisma.event.createMany({
+    data: events.map((e:any) => ({
       projectId,
-      rule: data.rule,
-      key: data.key,
-      allowed: data.allowed
-    }
+      rule: e.rule,
+      key: e.key,
+      allowed: e.allowed
+    }))
   });
 
 };
