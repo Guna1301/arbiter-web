@@ -14,56 +14,70 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(uuid())
-  clerkUserId   String   @unique
-  email         String   @unique
-  name          String?
-  projects      Project[]
-  createdAt     DateTime @default(now())
+  id          String    @id @default(uuid())
+  clerkUserId String    @unique
+  email       String    @unique
+  name        String?
+  projects    Project[]
+  createdAt   DateTime  @default(now())
 }
 
 model Project {
-  id        String   @id @default(uuid())
-  name      String
-  ownerId   String
-  owner     User     @relation(fields: [ownerId], references: [id])
+  id      String @id @default(uuid())
+  name    String
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id])
 
   defaultAlgorithm String?
-  whitelist Json?
-  blacklist Json?
-  abuse     Json?
+  whitelist        Json?
+  blacklist        Json?
+  abuse            Json?
 
-  configVersion    Int      @default(1)
+  configVersion Int @default(1)
 
-  apiKeys   ApiKey[]
-  rules     Rule[]
+  apiKeys ApiKey[]
+  rules   Rule[]
+  events  Event[]
 
   createdAt DateTime @default(now())
 }
 
 model ApiKey {
-  id         String   @id @default(uuid())
-  keyHash    String
-  prefix     String
-  projectId  String
-  project    Project  @relation(fields: [projectId], references: [id])
+  id        String  @id @default(uuid())
+  keyHash   String
+  prefix    String
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id])
 
-  status     String   @default("active")
-  createdAt  DateTime @default(now())
+  status    String   @default("active")
+  createdAt DateTime @default(now())
 }
 
 model Rule {
-  id        String @id @default(uuid())
-  name      String
-  limit     Int
-  window    Int
+  id     String @id @default(uuid())
+  name   String
+  limit  Int
+  window Int
 
   algorithm String?
   policy    Json?
   abuse     Json?
 
   projectId String
-  project   Project @relation(fields:[projectId],references:[id])
+  project   Project @relation(fields: [projectId], references: [id])
 
-  createdAt  DateTime @default(now())
+  createdAt DateTime @default(now())
+}
+
+model Event {
+  id String @id @default(uuid())
+
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id])
+
+  rule    String
+  key     String
+  allowed Boolean
+
+  createdAt DateTime @default(now())
 }

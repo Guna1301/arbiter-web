@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { validateApiKey } from "../middleware/validateApiKey.js";
 import { getProjectConfig } from "../services/config.service.js";
+import { createEvent } from "../controllers/event.controller.js";
 
 const router = Router();
 
@@ -18,7 +19,7 @@ router.post("/protect", validateApiKey, async (req:any,res)=>{
     });
   }
 
-  const ruleConfig = config.rules.find(
+  const ruleConfig = config?.rules?.find(
     (r:any)=> r.name === rule
   );
 
@@ -29,7 +30,7 @@ router.post("/protect", validateApiKey, async (req:any,res)=>{
   }
 
   res.json({
-    global: config.global,
+    global: config?.global,
     rule: ruleConfig
   });
 
@@ -43,10 +44,12 @@ router.get("/config", validateApiKey, async (req:any,res)=>{
 
   res.json({
     version: req.project.configVersion,
-    global: config.global,
-    rules: config.rules
+    global: config?.global,
+    rules: config?.rules
   });
 
 });
+
+router.post("/event", validateApiKey, createEvent);
 
 export default router;

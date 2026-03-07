@@ -8,6 +8,7 @@ import projectRoutes from "./routes/project.routes.js";
 import apiKeyRoutes from "./routes/apikey.routes.js";
 import ruleRoutes from "./routes/rule.routes.js";
 import gatewayRoutes from "./routes/gateway.routes.js";
+import analyticsRoutes from "./routes/analytics.routes.js";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.get('/health',(req,res)=>{
 app.use("/api/projects",projectRoutes);
 app.use("/api/apikeys",apiKeyRoutes);
 app.use("/api/rules",ruleRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 app.use("/gateway", gatewayRoutes);
 
