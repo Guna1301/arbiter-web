@@ -57,9 +57,7 @@ export async function getProjectConfig(
     rules: compiledRules
   };
 
-  await redis.set(cacheKey, JSON.stringify(config), {
-    EX: 300
-  });
+  await redis.set(cacheKey, JSON.stringify(config), "EX", 300);
 
   return config;
 }
