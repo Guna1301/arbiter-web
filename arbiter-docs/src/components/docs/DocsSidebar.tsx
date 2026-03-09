@@ -7,7 +7,6 @@ export default function DocsSidebar() {
   return (
     <aside className="w-72 shrink-0 border-r border-zinc-800 bg-zinc-950 h-screen sticky top-0 flex flex-col">
 
-      {/* Branding */}
       <div className="p-6 border-b border-zinc-800">
         <h1 className="text-lg font-semibold bg-linear-to-r from-indigo-400 to-blue-500 bg-clip-text text-transparent">
           Arbiter
@@ -18,10 +17,8 @@ export default function DocsSidebar() {
         </p>
       </div>
 
-      {/* Search Component */}
       <Search />
 
-      {/* Navigation */}
       <div className="flex-1 overflow-y-auto p-4 space-y-6">
 
         {docsNav.map((group) => (
@@ -58,13 +55,12 @@ export default function DocsSidebar() {
 
       </div>
 
-      {/* Footer */}
       <div className="p-4 border-t border-zinc-800 flex items-center justify-between text-xs text-zinc-500">
 
         <span>Arbiter v1.0</span>
 
         <a
-          href="https://github.com"
+          href="https://github.com/Guna1301/arbiter-web"
           target="_blank"
           className="flex items-center gap-1 hover:text-white transition"
         >
