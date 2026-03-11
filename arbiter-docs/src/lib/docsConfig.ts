@@ -1,18 +1,61 @@
-export const docsNav = [
+export type DocsItem = {
+  title: string
+  path: string
+  end?: boolean
+}
+
+export type DocsSection = {
+  section: string
+  items: DocsItem[]
+}
+
+export const docsNav: DocsSection[] = [
   {
     section: "Getting Started",
     items: [
-      { title: "Introduction", path: "/docs", end: true },
-      { title: "Installation", path: "/docs/installation", end: false },
-      { title: "Quick Start", path: "/docs/quickstart", end: false },
-    ],
+      {
+        title: "Introduction",
+        path: "/docs",
+        end: true
+      },
+      {
+        title: "Installation",
+        path: "/docs/installation"
+      },
+      {
+        title: "Quick Start",
+        path: "/docs/quickstart"
+      }
+    ]
   },
   {
     section: "Core Concepts",
     items: [
-      { title: "Projects", path: "/docs/projects", end: false },
-      { title: "API Keys", path: "/docs/api-keys", end: false },
-      { title: "Rate Limits", path: "/docs/rate-limits", end: false },
-    ],
+      {
+        title: "Projects",
+        path: "/docs/projects"
+      },
+      {
+        title: "API Keys",
+        path: "/docs/api-keys"
+      },
+      {
+        title: "Rate Limits",
+        path: "/docs/rate-limits"
+      }
+    ]
   },
+  {
+    section: "Advanced",
+    items: [
+      {
+        title: "Architecture",
+        path: "/docs/architecture"
+      },
+      {
+        title: "Analytics",
+        path: "/docs/analytics"
+      }
+    ]
+  }
 ]

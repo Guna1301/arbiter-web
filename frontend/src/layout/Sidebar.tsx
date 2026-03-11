@@ -35,7 +35,7 @@ export default function Sidebar() {
     <aside className="w-64 h-screen bg-zinc-950 border-r border-zinc-800 flex flex-col px-4 py-6">
 
       <div className="mb-10 px-2">
-        <h1 className="text-xl font-semibold bg-gradient-to-r from-indigo-400 to-blue-500 bg-clip-text text-transparent">
+        <h1 className="text-lg font-semibold bg-linear-to-r from-yellow-300 via-orange-400 via-red-500 to-red-600 bg-clip-text text-transparent">
           Arbiter
         </h1>
         <p className="text-xs text-zinc-500 mt-1">

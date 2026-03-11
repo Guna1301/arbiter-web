@@ -8,9 +8,9 @@ export default function DocsSidebar() {
     <aside className="w-72 shrink-0 border-r border-zinc-800 bg-zinc-950 h-screen sticky top-0 flex flex-col">
 
       <div className="p-6 border-b border-zinc-800">
-        <h1 className="text-lg font-semibold bg-linear-to-r from-indigo-400 to-blue-500 bg-clip-text text-transparent">
-          Arbiter
-        </h1>
+      <h1 className="text-lg font-semibold bg-linear-to-r from-yellow-300 via-orange-400 via-red-500 to-red-600 bg-clip-text text-transparent">
+        Arbiter
+      </h1>
 
         <p className="text-xs text-zinc-500 mt-1">
           Documentation
@@ -19,7 +19,7 @@ export default function DocsSidebar() {
 
       <Search />
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-6">
+      <nav className="flex-1 overflow-y-auto p-4 space-y-6">
 
         {docsNav.map((group) => (
           <div key={group.section}>
@@ -36,10 +36,10 @@ export default function DocsSidebar() {
                   to={item.path}
                   end={item.end}
                   className={({ isActive }) =>
-                    `group flex items-center px-3 py-2 rounded-md text-sm transition-colors
+                    `block px-3 py-2 rounded-md text-sm transition
                     ${
                       isActive
-                        ? "bg-zinc-800 text-white"
+                        ? "bg-zinc-800 text-white font-medium"
                         : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
                     }`
                   }
@@ -53,15 +53,16 @@ export default function DocsSidebar() {
           </div>
         ))}
 
-      </div>
+      </nav>
 
-      <div className="p-4 border-t border-zinc-800 flex items-center justify-between text-xs text-zinc-500">
+      <div className="p-4 border-t border-zinc-800 flex items-center justify-between text-xs text-zinc-300">
 
         <span>Arbiter v1.0</span>
 
         <a
           href="https://github.com/Guna1301/arbiter-web"
           target="_blank"
+          rel="noreferrer"
           className="flex items-center gap-1 hover:text-white transition"
         >
           <GithubIcon size={14} />
