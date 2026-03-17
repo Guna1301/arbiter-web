@@ -11,17 +11,20 @@ export const syncUser = async (req: any, res: any, next: any) => {
       });
     }
 
-    let user = await prisma.user.findUnique({
+    const user = await prisma.user.upsert({
       where: {
         clerkUserId: identity.clerkUserId,
       },
+      update: {
+        email: identity.email,
+        name: identity.name,
+      },
+      create: {
+        clerkUserId: identity.clerkUserId,
+        email: identity.email,
+        name: identity.name,
+      },
     });
-
-    if (!user) {
-      user = await prisma.user.create({
-        data: identity,
-      });
-    }
 
     req.dbUser = user;
 

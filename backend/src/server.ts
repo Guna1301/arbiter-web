@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 
 import { clerkMiddleware } from "@clerk/express";
 
+import authRoutes from './routes/auth.route.js'
 import projectRoutes from "./routes/project.routes.js";
 import apiKeyRoutes from "./routes/apikey.routes.js";
 import ruleRoutes from "./routes/rule.routes.js";
@@ -22,6 +23,7 @@ app.get('/health',(req,res)=>{
     res.status(200).json({message:'Server is healthy'});
 })
 
+app.use('/api/auth', authRoutes)
 app.use("/api/projects",projectRoutes);
 app.use("/api/apikeys",apiKeyRoutes);
 app.use("/api/rules",ruleRoutes);
