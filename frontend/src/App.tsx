@@ -1,23 +1,24 @@
-import { Routes, Route, Navigate } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom";
+import { AuthenticateWithRedirectCallback } from "@clerk/react";
 
-import DashboardLayout from "./layout/DashboardLayout"
+import DashboardLayout from "./layout/DashboardLayout";
+import Overview from "./pages/dashboard/Overview";
+import Projects from "./pages/dashboard/Projects";
+import Analytics from "./pages/dashboard/Analytics";
+import ApiKeys from "./pages/dashboard/ApiKeys";
 
-import Overview from "./pages/dashboard/Overview"
-import Projects from "./pages/dashboard/Projects"
-import Analytics from "./pages/dashboard/Analytics"
-import ApiKeys from "./pages/dashboard/ApiKeys"
-
-import Login from "./pages/auth/Login"
-import Signup from "./pages/auth/Signup"
-
-import ProtectedRoute from "./components/ProtectedRoute"
+import ProtectedRoute from "./components/ProtectedRoute";
+import AuthCallbackPage from "./pages/auth/AuthCallbackPage";
+import Auth from "./pages/auth/AuthPage";
 
 export default function App() {
   return (
     <Routes>
+      <Route path="/sso-callback" element={<AuthenticateWithRedirectCallback />} />
 
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+      <Route path="/auth-callback" element={<AuthCallbackPage />} />
+
+      <Route path="/auth" element={<Auth />} />
 
       <Route
         element={
@@ -32,7 +33,6 @@ export default function App() {
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/apikeys" element={<ApiKeys />} />
       </Route>
-
     </Routes>
-  )
+  );
 }
