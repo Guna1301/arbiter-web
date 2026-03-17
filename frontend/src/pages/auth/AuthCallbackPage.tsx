@@ -34,12 +34,25 @@ const AuthCallbackPage = () => {
   }, [isLoaded, user, navigate]);
 
   return (
-    <div className="h-screen w-full bg-black flex items-center justify-center">
-      <Card className="w-[90%] max-w-md bg-zinc-900 border-zinc-800">
-        <CardContent className="flex flex-col items-center gap-4 pt-6">
-          <Loader className="size-6 text-emerald-500 animate-spin" />
-          <h3 className="text-zinc-400 text-xl font-bold">Logging you in</h3>
-          <p className="text-zinc-400 text-sm">Redirecting...</p>
+    <div className="h-screen w-full bg-black flex items-center justify-center p-4">
+      <Card className="w-[90%] max-w-sm bg-zinc-900/90 border border-zinc-800 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.6)] backdrop-blur-sm">
+        <CardContent className="flex flex-col items-center gap-5 pt-10 pb-10">
+          
+          <Loader 
+            className="size-6 text-yellow-300 animate-spin" 
+            strokeWidth={2}
+          />
+          
+          <div className="flex flex-col gap-1.5 items-center text-center">
+            <h3 className="text-zinc-100 text-2xl font-bold tracking-tight">
+              Logging you in
+            </h3>
+            
+            <p className="text-zinc-500 text-sm font-medium">
+              Redirecting...
+            </p>
+          </div>
+          
         </CardContent>
       </Card>
     </div>
