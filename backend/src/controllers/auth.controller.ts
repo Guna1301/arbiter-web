@@ -2,6 +2,7 @@ import { prisma } from "../config/db.js";
 
 export const authCallback = async (req: any, res: any, next: any) => {
   try {
+
     const { id, firstName, lastName, email } = req.body;
 
     if (!id || !email) {

@@ -12,11 +12,11 @@ const AuthCallbackPage = () => {
 
   useEffect(() => {
     const syncUser = async () => {
-      if (!isLoaded || !user || syncAttempted.current) return;
+      if (!isLoaded || !user) return;
+      if (syncAttempted.current) return;
+      syncAttempted.current = true;
 
       try {
-        syncAttempted.current = true;
-
         await api.post("/auth/callback", {
           id: user.id,
           firstName: user.firstName,
@@ -26,7 +26,7 @@ const AuthCallbackPage = () => {
       } catch (error) {
         console.log("Error in auth callback", error);
       } finally {
-        navigate("/");
+        navigate("/dashboard");
       }
     };
 
