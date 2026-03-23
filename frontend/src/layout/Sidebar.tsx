@@ -1,4 +1,13 @@
-import { Home, Folder, BarChart3, Key, BookOpen } from "lucide-react"
+import { 
+  Home, 
+  Folder, 
+  BarChart3, 
+  Key, 
+  BookOpen,
+  Github,
+  MessageSquare, 
+  LifeBuoy
+} from "lucide-react"
 import { NavLink } from "react-router-dom"
 
 const navItems = [
@@ -6,20 +15,21 @@ const navItems = [
     name: "Overview",
     path: "/dashboard",
     icon: Home,
+    end: true,
   },
   {
     name: "Projects",
-    path: "/projects",
+    path: "/dashboard/projects",
     icon: Folder,
   },
   {
     name: "Analytics",
-    path: "/analytics",
+    path: "/dashboard/analytics",
     icon: BarChart3,
   },
   {
     name: "API Keys",
-    path: "/apikeys",
+    path: "/dashboard/apikeys",
     icon: Key,
   },
   {
@@ -32,19 +42,18 @@ const navItems = [
 
 export default function Sidebar() {
   return (
-    <aside className="w-64 h-screen bg-zinc-950 border-r border-zinc-800 flex flex-col px-4 py-6">
+    <aside className="w-64 h-screen sticky top-0 bg-zinc-950 border-r border-zinc-800 flex flex-col px-4 py-6">
 
       <div className="mb-10 px-2">
-        <h1 className="text-lg text-white font-semibold bg-clip-text text-transparent">
+        <h1 className="text-xl font-bold bg-gradient-to-br from-zinc-100 to-zinc-500 bg-clip-text text-transparent">
           Arbiter
         </h1>
-        <p className="text-xs text-zinc-500 mt-1">
+        <p className="text-xs text-zinc-500 mt-1 font-medium">
           API Traffic Control
         </p>
       </div>
 
-      <nav className="flex flex-col gap-2">
-
+      <nav className="flex flex-col gap-1.5">
         {navItems.map((item) => {
           const Icon = item.icon
 
@@ -55,9 +64,9 @@ export default function Sidebar() {
                 href={item.path}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-zinc-400 hover:bg-zinc-900 hover:text-white transition-colors"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium text-zinc-400 hover:bg-zinc-900 hover:text-zinc-100 transition-colors"
               >
-                <Icon size={18} />
+                <Icon size={18} strokeWidth={2} />
                 {item.name}
               </a>
             )
@@ -67,16 +76,17 @@ export default function Sidebar() {
             <NavLink
               key={item.path}
               to={item.path}
+              end={item.end}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors
+                `flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors
                 ${
                   isActive
-                    ? "bg-zinc-800 text-white"
-                    : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                    ? "bg-zinc-800 text-zinc-100 shadow-sm"
+                    : "text-zinc-400 hover:bg-zinc-900 hover:text-zinc-200"
                 }`
               }
             >
-              <Icon size={18} />
+              <Icon size={18} strokeWidth={2} />
               {item.name}
             </NavLink>
           )
@@ -84,10 +94,25 @@ export default function Sidebar() {
 
       </nav>
 
-      <div className="mt-auto pt-6 border-t border-zinc-800">
-        <p className="text-xs text-zinc-500 px-2">
-          Arbiter v1.0
-        </p>
+      <div className="mt-auto pt-4 border-t border-zinc-800/60 flex flex-col gap-4">
+        
+        <div className="flex items-center gap-4 px-3 text-zinc-500">
+          <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-zinc-200 transition-colors" aria-label="GitHub">
+            <Github size={18} strokeWidth={2} />
+          </a>
+          <a href="https://discord.com" target="_blank" rel="noreferrer" className="hover:text-zinc-200 transition-colors" aria-label="Discord">
+            <MessageSquare size={18} strokeWidth={2} />
+          </a>
+          <a href="/support" className="hover:text-zinc-200 transition-colors" aria-label="Support">
+            <LifeBuoy size={18} strokeWidth={2} />
+          </a>
+        </div>
+
+        <div className="px-3 flex flex-row">
+          <span className="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold">
+            Arbiter v1.0
+          </span>
+        </div>
       </div>
 
     </aside>

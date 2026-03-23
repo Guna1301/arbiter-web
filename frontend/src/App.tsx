@@ -26,18 +26,18 @@ export default function App() {
       <Route path="/auth" element={<Auth />} />
 
       <Route
+        path="/dashboard"
         element={
           <ProtectedRoute>
             <DashboardLayout />
           </ProtectedRoute>
         }
       >
-        <Route index element={<Navigate to="/dashboard" replace />} />
-        <Route path="/dashboard" element={<Overview />} />
-        <Route path="/projects" element={<Projects />} />
+        <Route index element={<Overview />} />
+        <Route path="projects" element={<Projects />} />
         <Route path="projects/:projectId" element={<ProjectDetails />} />
-        <Route path="/analytics" element={<Analytics />} />
-        <Route path="/apikeys" element={<ApiKeys />} />
+        <Route path="analytics" element={<Analytics />} />
+        <Route path="apikeys" element={<ApiKeys />} />
       </Route>
     </Routes>
   );
