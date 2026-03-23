@@ -1,5 +1,12 @@
 import * as ruleService from "../services/rule.service.js";
 
+export const getRules = async (req:any,res:any)=>{
+  const { projectId } = req.params;
+
+  const rules = await ruleService.getProjectRules(projectId);
+  res.json(rules);
+}
+
 export const createRule = async (req:any,res:any)=>{
 
   const { projectId } = req.params;

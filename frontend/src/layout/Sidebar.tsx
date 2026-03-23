@@ -5,8 +5,8 @@ import {
   Key, 
   BookOpen,
   Github,
-  MessageSquare, 
-  LifeBuoy
+  XIcon,
+  LifeBuoy,
 } from "lucide-react"
 import { NavLink } from "react-router-dom"
 
@@ -94,27 +94,25 @@ export default function Sidebar() {
 
       </nav>
 
-      <div className="mt-auto pt-4 border-t border-zinc-800/60 flex flex-col gap-4">
+      <div className="mt-auto pt-4 border-t border-zinc-800/60 flex items-center justify-between px-3">
         
-        <div className="flex items-center gap-4 px-3 text-zinc-500">
+        <span className="text-[12px] text-zinc-500 font-medium">
+          Arbiter v1.0
+        </span>
+        
+        <div className="flex items-center gap-3 text-zinc-500">
           <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-zinc-200 transition-colors" aria-label="GitHub">
-            <Github size={18} strokeWidth={2} />
+            <Github size={16} strokeWidth={2} />
           </a>
-          <a href="https://discord.com" target="_blank" rel="noreferrer" className="hover:text-zinc-200 transition-colors" aria-label="Discord">
-            <MessageSquare size={18} strokeWidth={2} />
+          <a href="https://x.com" target="_blank" rel="noreferrer" className="hover:text-zinc-200 transition-colors" aria-label="X">
+            <XIcon size={16} strokeWidth={2} /> 
           </a>
           <a href="/support" className="hover:text-zinc-200 transition-colors" aria-label="Support">
-            <LifeBuoy size={18} strokeWidth={2} />
+            <LifeBuoy size={16} strokeWidth={2} />
           </a>
         </div>
-
-        <div className="px-3 flex flex-row">
-          <span className="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold">
-            Arbiter v1.0
-          </span>
-        </div>
+        
       </div>
-
     </aside>
   )
 }
