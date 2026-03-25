@@ -23,12 +23,22 @@ export const ruleStats = async (req: any, res: Response) => {
 
 };
 
-export const topKeys = async (req: any, res: Response) => {
+
+export const getEventStatsController = async (req: any, res: Response) => {
+  const projectId = req.params.projectId;
+
+  const stats = await analyticsService.getEventStats(projectId);
+
+  res.json(stats);
+};
+
+
+export const topAbuseKeys = async (req: any, res: Response) => {
 
   const projectId = req.params.projectId;
 
   const keys =
-    await analyticsService.getTopKeys(projectId);
+    await analyticsService.getTopAbuseKeys(projectId);
 
   res.json(keys);
 

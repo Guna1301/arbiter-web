@@ -3,11 +3,12 @@ import { useParams, useNavigate } from "react-router-dom"
 import { ArrowLeft, Shield, Key } from "lucide-react"
 import RulesTab from "../../components/RulesTab"
 import ApiKeysTab from "../../components/ApiKeysTab"
+import AnalyticsTab from "../../components/AnalyticsTab"
 
 export default function ProjectDetails() {
   const { projectId } = useParams()
   const navigate = useNavigate()
-  const [activeTab, setActiveTab] = useState<"rules" | "apikeys">("rules")
+  const [activeTab, setActiveTab] = useState<"rules" | "apikeys" | "analytics">("rules")
 
   if (!projectId) return null
 
@@ -54,14 +55,27 @@ export default function ProjectDetails() {
           <Key size={16} />
           API Keys
         </button>
+        <button
+          onClick={() => setActiveTab("analytics")}
+          className={`pb-3 text-sm font-medium transition-colors border-b-2 ${
+            activeTab === "analytics"
+              ? "border-zinc-200 text-zinc-200"
+              : "border-transparent text-zinc-500 hover:text-zinc-300"
+          } flex items-center gap-2`}
+        >
+          <Key size={16} />
+          Analytics
+        </button>
       </div>
 
       <div className="animate-in slide-in-from-bottom-2 fade-in duration-300">
         {activeTab === "rules" ? (
           <RulesTab projectId={projectId} />
-        ) : (
+        ) : activeTab === "apikeys" ?  (
           <ApiKeysTab projectId={projectId} />
-        )}
+        ) : activeTab === "analytics" ?  (
+          <AnalyticsTab projectId={projectId} />
+        ) : null}
       </div>
 
     </div>
