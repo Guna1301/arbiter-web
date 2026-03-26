@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { ArrowLeft, Shield, Key } from "lucide-react"
+import { ArrowLeft, Shield, Key, ChartPie } from "lucide-react"
 import RulesTab from "../../components/rules/RulesTab"
 import ApiKeysTab from "../../components/apikey/ApiKeysTab"
 import AnalyticsTab from "../../components/analytics/AnalyticsTab"
@@ -63,7 +63,7 @@ export default function ProjectDetails() {
               : "border-transparent text-zinc-500 hover:text-zinc-300"
           } flex items-center gap-2`}
         >
-          <Key size={16} />
+          <ChartPie size={16} />
           Analytics
         </button>
       </div>

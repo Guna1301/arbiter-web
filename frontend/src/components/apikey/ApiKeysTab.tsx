@@ -3,6 +3,7 @@ import { Plus, Trash2, Key, ShieldAlert } from "lucide-react";
 import { getApiKeys, revokeApiKey } from "../../services/apikey.api";
 import type { ApiKey } from "../../types/apikey";
 import CreateApiKeyModal from "./CreateApiKeyModal";
+import ApiKeysSkeleton from "../skeletons/ApiKeysSkeleton";
 
 interface Props {
   projectId: string;
@@ -42,9 +43,7 @@ export default function ApiKeysTab({ projectId }: Props) {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-40 text-zinc-500 text-sm">
-        Loading API keys...
-      </div>
+      <ApiKeysSkeleton/>
     );
   }
 
