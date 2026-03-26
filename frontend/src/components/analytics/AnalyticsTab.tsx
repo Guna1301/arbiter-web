@@ -1,4 +1,4 @@
-import { useRuleMetrics, useTopAbuse, useStatusMetrics } from "../hooks/useAnalytics"
+import { useRuleMetrics, useTopAbuse, useStatusMetrics } from "../../hooks/useAnalytics"
 import RuleChart from "./RuleChart"
 import StatusChart from "./StatusChart"
 import TopAbuseTable from "./TopAbuseTable"

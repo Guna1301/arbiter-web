@@ -2,15 +2,15 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { AuthenticateWithRedirectCallback, useAuth } from "@clerk/react";
 
 import DashboardLayout from "./layout/DashboardLayout";
-import Overview from "./pages/dashboard/Overview";
 import Projects from "./pages/dashboard/Projects";
-import Analytics from "./pages/dashboard/Analytics";
-import ApiKeys from "./pages/dashboard/ApiKeys";
 
-import ProtectedRoute from "./components/ProtectedRoute";
+
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AuthCallbackPage from "./pages/auth/AuthCallbackPage";
 import Auth from "./pages/auth/AuthPage";
 import ProjectDetails from "./pages/dashboard/ProjectDetails";
+
+import LandingPage from "./pages/LandingPage"; 
 
 import { setAuthTokenGetter } from "./lib/authToken";
 
@@ -21,6 +21,8 @@ export default function App() {
 
   return (
     <Routes>
+      <Route path="/" element={<LandingPage />} />
+      
       <Route path="/sso-callback" element={<AuthenticateWithRedirectCallback />} />
       <Route path="/auth-callback" element={<AuthCallbackPage />} />
       <Route path="/auth" element={<Auth />} />
@@ -33,12 +35,12 @@ export default function App() {
           </ProtectedRoute>
         }
       >
-        <Route index element={<Overview />} />
+        <Route index element={<Projects />} />
         <Route path="projects" element={<Projects />} />
         <Route path="projects/:projectId" element={<ProjectDetails />} />
-        <Route path="analytics" element={<Analytics />} />
-        <Route path="apikeys" element={<ApiKeys />} />
       </Route>
+
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

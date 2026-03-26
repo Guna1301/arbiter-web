@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { createRule } from "../services/rule.api"
+import { createRule } from "../../services/rule.api"
 import { useQueryClient } from "@tanstack/react-query"
 import { ShieldPlus, X, ChevronDown, ChevronUp } from "lucide-react"
 

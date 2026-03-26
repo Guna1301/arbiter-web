@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Copy, X, Check, Key } from "lucide-react";
-import { createApiKey } from "../services/apikey.api";
+import { createApiKey } from "../../services/apikey.api";
 interface Props {
   projectId: string;
   onClose: () => void;

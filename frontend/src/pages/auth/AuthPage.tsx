@@ -1,6 +1,6 @@
 import { useSignIn, useAuth } from "@clerk/react";
 import { Navigate } from "react-router-dom";
-import OAuthButton from "../../components/OAuthButton";
+import OAuthButton from "../../components/auth/OAuthButton";
 
 function Auth() {
   const { isSignedIn, isLoaded } = useAuth();

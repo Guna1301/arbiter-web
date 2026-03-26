@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Plus, Trash2, Key, ShieldAlert } from "lucide-react";
-import { getApiKeys, revokeApiKey } from "../services/apikey.api";
-import type { ApiKey } from "../types/apikey";
+import { getApiKeys, revokeApiKey } from "../../services/apikey.api";
+import type { ApiKey } from "../../types/apikey";
 import CreateApiKeyModal from "./CreateApiKeyModal";
 
 interface Props {
@@ -16,7 +16,6 @@ export default function ApiKeysTab({ projectId }: Props) {
   const fetchKeys = async () => {
     try {
       const data = await getApiKeys(projectId);
-      console.log("Fetched API keys:", data);
       setKeys(data);
     } catch (err) {
       console.error(err);
@@ -83,7 +82,7 @@ export default function ApiKeysTab({ projectId }: Props) {
       )}
 
       {keys.length > 0 ? (
-        <div className="bg-zinc-900/50 border border-zinc-800/80 rounded-xl overflow-hidden shadow-sm">
+        <div className="bg-zinc-900/50 border border-zinc-800/80 rounded-xl  overflow-scroll shadow-sm">
           <table className="w-full text-sm text-left text-zinc-400">
             <thead className="bg-zinc-900 border-b border-zinc-800/80 text-zinc-300">
               <tr>

@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { ArrowLeft, Shield, Key } from "lucide-react"
-import RulesTab from "../../components/RulesTab"
-import ApiKeysTab from "../../components/ApiKeysTab"
-import AnalyticsTab from "../../components/AnalyticsTab"
+import RulesTab from "../../components/rules/RulesTab"
+import ApiKeysTab from "../../components/apikey/ApiKeysTab"
+import AnalyticsTab from "../../components/analytics/AnalyticsTab"
 
 export default function ProjectDetails() {
   const { projectId } = useParams()

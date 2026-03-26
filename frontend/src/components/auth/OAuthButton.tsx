@@ -1,5 +1,5 @@
 import { useSignIn } from "@clerk/react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { useState } from "react";
 import { Loader } from "lucide-react";
 import { FaGithub, FaGoogle } from "react-icons/fa";

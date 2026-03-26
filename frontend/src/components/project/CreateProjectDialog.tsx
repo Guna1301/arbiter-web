@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useCreateProject } from "../hooks/useProjects"
+import { useCreateProject } from "../../hooks/useProjects"
 
 export default function CreateProjectDialog() {
   const [isOpen, setIsOpen] = useState(false)

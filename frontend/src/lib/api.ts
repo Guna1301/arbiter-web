@@ -11,9 +11,6 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(async (config) => {
-  console.log("baseURL:", config.baseURL);
-  console.log("url:", config.url);
-  
   try {
     const token = await getAuthToken();
     if (token) {

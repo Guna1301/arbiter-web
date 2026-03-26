@@ -1,6 +1,6 @@
 import { useState } from "react"
-import type { Rule } from "../types/rule"
-import { deleteRule, updateRule } from "../services/rule.api"
+import type { Rule } from "../../types/rule"
+import { deleteRule, updateRule } from "../../services/rule.api"
 import { useQueryClient } from "@tanstack/react-query"
 import { Trash2, Edit2, Activity, ShieldAlert, X, Settings2, ChevronDown, ChevronUp } from "lucide-react"
 

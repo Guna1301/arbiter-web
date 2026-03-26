@@ -1,4 +1,4 @@
-import type { Project } from "../types/project"
+import type { Project } from "../../types/project"
 import { useNavigate } from "react-router-dom"
 
 export default function ProjectCard({ project }: { project: Project }) {

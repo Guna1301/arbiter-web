@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react"
 import { useProjects } from "../../hooks/useProjects"
-import ProjectCard from "../../components/ProjectCard"
-import CreateProjectDialog from "../../components/CreateProjectDialog"
+import ProjectCard from "../../components/project/ProjectCard"
+import CreateProjectDialog from "../../components/project/CreateProjectDialog"
 import ProjectSkeleton from "../../components/skeletons/ProjectSkeleton"
 import { ChevronLeft, ChevronRight, Search, X } from "lucide-react"
 

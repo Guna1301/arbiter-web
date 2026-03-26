@@ -1,10 +1,10 @@
 import { useState, useMemo } from "react"
 import { Search, X, Shield } from "lucide-react"
-import { useRules } from "../hooks/useRules"
+import { useRules } from "../../hooks/useRules"
 import CreateRule from "./CreateRule"
 import RuleTable from "./RuleTable"
-import RuleSkeleton from "./skeletons/RuleSkeleton"
-import type { Rule } from "../types/rule"
+import RuleSkeleton from "../skeletons/RuleSkeleton"
+import type { Rule } from "../../types/rule"
 
 interface RulesTabProps {
   projectId: string;
