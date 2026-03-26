@@ -18,7 +18,7 @@ export const updateRule = async (
   ruleId: string,
   data: UpdateRuleInput
 ) => {
-  const res = await api.put(`/rules/${ruleId}`, data);
+  const res = await api.patch(`/rules/${ruleId}`, data);
   return res.data;
 };
 

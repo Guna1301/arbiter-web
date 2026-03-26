@@ -51,5 +51,6 @@ router.get("/config", validateApiKey, async (req:any,res)=>{
 });
 
 router.post("/event", validateApiKey, createEvent);
+router.post("/event/batch", validateApiKey, createEvent);
 
 export default router;

@@ -10,7 +10,7 @@ export const createEvents = async (
   projectId: string,
   events: EventPayload[]
 ) => {
-
+  // console.log("Creating events for project:", projectId, "with payload:", events);
   await prisma.event.createMany({
     data: events.map((e:any) => ({
       projectId,
