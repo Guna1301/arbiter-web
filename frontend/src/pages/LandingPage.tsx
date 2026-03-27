@@ -8,6 +8,7 @@ import ConfigCodeBlock from "../components/landing/ConfigCodeBlock";
 import AnalyticsMock from "../components/landing/AnalyticsMock";
 
 export default function LandingPage() {
+  const docsBaseUrl = import.meta.env.VITE_DOCS_BASE_URL || "http://localhost:5174";
   return (
     <div className="min-h-screen bg-[#030303] text-zinc-100 font-sans selection:bg-zinc-800 overflow-x-hidden">
       
@@ -25,7 +26,7 @@ export default function LandingPage() {
           </Link>
 
           <div className="flex items-center gap-6 text-sm font-medium">
-            <a href="/docs" className="text-zinc-400 hover:text-zinc-100 transition-colors hidden sm:block">Documentation</a>
+            <a href={docsBaseUrl} target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-zinc-100 transition-colors hidden sm:block">Documentation</a>
             <a href="https://github.com/Guna1301/arbiter" target="_blank" rel="noreferrer" className="text-zinc-400 hover:text-zinc-100 transition-colors hidden sm:block">GitHub</a>
             
             <div className="h-4 w-px bg-zinc-800 hidden sm:block" />
@@ -167,7 +168,7 @@ export default function LandingPage() {
 
             <br />
 
-            <Link to="/docs" className="inline-flex items-center text-zinc-300 hover:text-white font-medium transition-colors border-b border-zinc-800 hover:border-zinc-300 pb-1">
+            <Link to={docsBaseUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-zinc-300 hover:text-white font-medium transition-colors border-b border-zinc-800 hover:border-zinc-300 pb-1">
               View docs <ArrowRight size={16} className="ml-2" />
             </Link>
           </div>
@@ -290,7 +291,7 @@ export default function LandingPage() {
             <Link to="/auth" className="flex items-center gap-2 bg-white text-zinc-950 hover:bg-zinc-200 px-8 py-4 rounded-full font-semibold transition-colors text-lg shadow-lg">
               Get Started Free <ArrowRight size={20} />
             </Link>
-            <a href="/docs" className="flex items-center gap-2 bg-transparent border border-zinc-800 hover:bg-zinc-900 text-zinc-300 px-8 py-4 rounded-full font-semibold transition-colors text-lg">
+            <a href={docsBaseUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-transparent border border-zinc-800 hover:bg-zinc-900 text-zinc-300 px-8 py-4 rounded-full font-semibold transition-colors text-lg">
               <BookOpen size={20} /> Read the Docs
             </a>
           </div>
@@ -308,7 +309,7 @@ export default function LandingPage() {
              <span className="text-sm text-zinc-700 font-medium ml-2">© {new Date().getFullYear()} Arbiter SDK.</span>
           </div>
           <div className="flex gap-6 text-sm font-medium text-zinc-500">
-            <a href="/docs" className="hover:text-zinc-200 transition-colors">Documentation</a>
+            <a href={docsBaseUrl} target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">Documentation</a>
             <a href="https://github.com/Guna1301/arbiter" target="_blank" rel="noreferrer" className="hover:text-zinc-200 transition-colors">GitHub</a>
             <a href="https://npmjs.com/package/arbiter-sdk" target="_blank" rel="noreferrer" className="hover:text-zinc-200 transition-colors">NPM</a>
           </div>

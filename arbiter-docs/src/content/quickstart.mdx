@@ -1,11 +1,152 @@
 # Quick Start
 
-Basic example:
+This guide walks you through a complete flow, from creating a project to protecting your first endpoint.
 
-```js
-import { Arbiter } from "arbiter-sdk"
+By the end, you’ll have a working setup where Arbiter is actively controlling requests.
 
-const arbiter = new Arbiter({
-  apiKey: "your-key"
-})
+---
+
+## Step 1: Create a Project
+
+Go to the Arbiter dashboard and create a new project.
+
+A project represents a single application or service you want to protect.
+
+Examples:
+
+- Auth Service  
+- Payment API  
+- Public API  
+
+Each project has its own:
+
+- Rules  
+- API keys  
+- Analytics  
+
+---
+
+## Step 2: Generate an API Key
+
+Inside your project, generate an API key.
+
+This key is used by the SDK to:
+
+- Identify your project  
+- Fetch configuration  
+- Send analytics data  
+
+---
+
+## Step 3: Create a Rule
+
+Now define a rule that controls traffic.
+
+Example:
+
+- Rule name: `login`  
+- Limit: `5`  
+- Window: `10 seconds`  
+
+This means:
+
+> A single user (or IP) can only make 5 login requests within 10 seconds.
+
+If they exceed this limit → requests will be blocked.
+
+---
+
+## Step 4: Initialize Arbiter in Your Backend
+
+```ts
+import { createArbiterClient } from "arbiter-sdk";
+
+const arbiter = createArbiterClient({
+  apiKey: process.env.ARBITER_API_KEY
+});
+
+await arbiter.init();
 ```
+
+At this point, your backend is connected to Arbiter.
+
+---
+
+## Step 5: Protect an Endpoint
+
+Apply protection to your route:
+
+```ts
+app.post("/login", async (req, res) => {
+  const result = await arbiter.protect({
+    key: req.ip,
+    rule: "login"
+  });
+
+  if (!result.allowed) {
+    return res.status(429).json({
+      message: "Too many requests. Try again later."
+    });
+  }
+
+  // Continue your normal login logic
+});
+```
+
+---
+
+## What is `key`?
+
+The `key` identifies **who is making the request**.
+
+Common choices:
+
+- `req.ip` → per IP limiting  
+- `user.id` → per user limiting  
+- `apiKey` → per client limiting  
+
+Choosing the right key is important because rate limiting is applied per key.
+
+---
+
+## What Happens Internally?
+
+When a request hits your `/login` endpoint:
+
+1. SDK receives the request context  
+2. It looks up the `login` rule from cached config  
+3. Sends validation request to Arbiter service  
+4. Arbiter increments request count in Redis  
+5. Checks if limit is exceeded  
+6. Returns decision → ALLOW or BLOCK  
+7. SDK returns result to your code  
+8. Analytics event is recorded  
+
+This entire flow is designed to be fast and consistent across services.
+
+---
+
+## Testing It
+
+Try sending multiple requests quickly:
+
+- First few → allowed  
+- After limit → blocked (HTTP 429)  
+
+This confirms your rule is working correctly.
+
+---
+
+## Pro Tip
+
+Start simple:
+
+- Add rules only to sensitive endpoints first (login, signup)  
+- Monitor analytics  
+- Gradually expand protection to other routes  
+
+---
+
+## Next Step
+
+Now that you have a working setup, understand how Arbiter organizes everything using **Projects**.

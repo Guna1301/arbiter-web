@@ -1,23 +1,139 @@
-# Introduction
+# What is Arbiter?
 
-Arbiter is a distributed API traffic control system designed to prevent abuse.
+Arbiter is a developer-first API protection platform that helps you **control, monitor, and protect your APIs** without adding complex infrastructure.
 
-<h2 id="why-arbiter">Why Arbiter</h2>
+It provides **rate limiting, abuse detection, and real-time analytics** using a simple SDK and a centralized dashboard.
 
-Modern APIs face challenges like:
+Instead of writing custom logic for every service, Arbiter gives you a single system to manage everything.
 
-- traffic spikes
-- abusive clients
-- lack of visibility
+---
 
-<h2 id="features">Features</h2>
+## The Problem
 
-Arbiter provides:
+If you build APIs, you will eventually face these issues:
 
-- rate limiting
-- analytics
-- policy enforcement
+- Users or bots sending too many requests (spam)
+- Brute-force attacks on login or OTP endpoints
+- Sudden spikes in traffic that can crash your system
+- Different services handling rate limits differently
+- No clear visibility into who is using your API and how
 
-<h2 id="architecture">Architecture</h2>
+Most teams try to solve this using middleware like rate limiters, but that creates new problems:
 
-Arbiter sits between your services and incoming traffic.
+- Configuration is hardcoded in each service  
+- No shared control across multiple services  
+- No way to detect abusive behavior over time  
+- No analytics to understand traffic patterns  
+
+As your system grows, this approach becomes difficult to manage.
+
+---
+
+## The Arbiter Approach
+
+Arbiter takes a different approach by separating **control** and **execution**.
+
+Instead of embedding everything inside your backend:
+
+- You define rules centrally (dashboard)
+- Your backend uses an SDK to enforce them
+- A fast decision system evaluates each request
+- A shared store (Redis) keeps track of usage
+
+This creates a system that is:
+
+- **Centralized in control**
+- **Distributed in execution**
+- **Fast enough for real-time decisions**
+
+---
+
+## What You Get
+
+With Arbiter, you get:
+
+- A single place to define and manage rules  
+- Consistent behavior across all your services  
+- Protection against brute-force and abuse patterns  
+- Real-time insights into API usage  
+- Project-based isolation using API keys  
+
+You don’t need to redeploy your backend every time you change a rule.
+
+---
+
+## How It Works (Simple Flow)
+
+Here’s what happens when a request comes in:
+
+1. You define rules in the dashboard (e.g., login limit: 5 requests / 10 seconds)  
+2. Your backend SDK fetches this configuration using an API key  
+3. When a request comes in, SDK sends it for validation  
+4. Arbiter checks request count and rules using Redis  
+5. A decision is returned: **ALLOW or BLOCK**  
+6. The result is applied in your backend  
+7. Analytics data is recorded for monitoring  
+
+All of this happens in milliseconds.
+
+---
+
+## Why Not Just Use Middleware?
+
+You might wonder: why not just use something like `express-rate-limit`?
+
+That works for small use cases, but breaks down when:
+
+- You have multiple services  
+- You need centralized control  
+- You want analytics  
+- You need abuse detection (not just counting requests)  
+
+Middleware-based solutions:
+
+- Are local to each service  
+- Cannot share state easily  
+- Require redeployments for every change  
+- Do not provide visibility  
+
+Arbiter solves this by acting as a **system, not just a library**.
+
+---
+
+## Core Idea
+
+Arbiter is not just a rate limiter.
+
+It is a **complete API protection layer** that sits alongside your application and handles:
+
+- Traffic control  
+- Abuse prevention  
+- Observability  
+
+---
+
+## When Should You Use Arbiter?
+
+Arbiter is especially useful for:
+
+- Login and authentication endpoints  
+- Public APIs exposed to the internet  
+- Payment or sensitive operations  
+- SaaS platforms with multiple users  
+- Microservices where consistency matters  
+
+---
+
+## Mental Model
+
+A simple way to think about Arbiter:
+
+- **Gateway →** controls how traffic should behave  
+- **Guard →** enforces rules on every request  
+- **Monitor →** shows what is happening in real time  
+
+All three work together as one system.
+
+---
+
+> Arbiter gives you the control of a gateway, the simplicity of an SDK, and the visibility of a monitoring system, all in one.

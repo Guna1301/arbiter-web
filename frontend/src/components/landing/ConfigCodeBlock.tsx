@@ -26,7 +26,7 @@ export default function ConfigCodeBlock() {
         </div>
 
         <div className="text-zinc-500">
-          {"  "}// optional overrides
+          {"  "}// optional overrides 
         </div>
 
         <div>

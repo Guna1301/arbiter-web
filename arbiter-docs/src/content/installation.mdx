@@ -1,17 +1,132 @@
 # Installation
 
-Install the Arbiter SDK:
+This guide will help you set up Arbiter in your backend and get it ready to protect your APIs.
+
+Arbiter is designed to integrate quickly, you don't need to change your existing architecture.
+
+---
+
+## Prerequisites
+
+Before installing, make sure you have:
+
+- A Node.js backend (Express, Fastify, etc.)
+- An Arbiter account (dashboard access)
+- A project created inside the dashboard
+- An API key generated for that project
+
+---
+
+## Step 1: Install the SDK
+
+Install the Arbiter SDK in your backend service:
 
 ```bash
 npm install arbiter-sdk
 ```
 
-Example usage:
+---
 
-```javascript
-import { Arbiter } from "arbiter-sdk"
+## Step 2: Initialize the Client
 
-const arbiter = new Arbiter({
-  apiKey: "your-api-key"
-})
+Import and create an Arbiter client using your API key:
+
+```ts
+import { createArbiterClient } from "arbiter-sdk";
+
+const arbiter = createArbiterClient({
+  apiKey: process.env.ARBITER_API_KEY
+});
 ```
+
+---
+
+## Step 3: Initialize Arbiter
+
+Before handling requests, initialize the client:
+
+```ts
+await arbiter.init();
+```
+
+### What happens during initialization?
+
+- SDK connects to Arbiter backend  
+- Fetches project configuration (rules, limits, policies)  
+- Caches configuration locally for fast access  
+- Prepares internal validation pipeline  
+
+This step is important to ensure low-latency decisions during requests.
+
+---
+
+## Step 4: Protect Your Routes
+
+Now you can start protecting your endpoints:
+
+```ts
+app.post("/login", async (req, res) => {
+  const result = await arbiter.protect({
+    key: req.ip,
+    rule: "login"
+  });
+
+  if (!result.allowed) {
+    return res.status(429).send("Too many requests");
+  }
+
+  // continue normal logic
+});
+```
+
+---
+
+## Environment Variables
+
+Store your API key securely:
+
+```env
+ARBITER_API_KEY=arb_live_xxx
+```
+
+Never hardcode API keys in your source code.
+
+---
+
+## Best Practices
+
+- Initialize Arbiter once during app startup  
+- Use meaningful rule names (e.g., `login`, `signup`, `payments`)  
+- Use a stable identifier for `key` (IP, user ID, or token)  
+- Avoid calling `init()` multiple times  
+
+---
+
+## What Happens Behind the Scenes?
+
+When you call `protect()`:
+
+1. SDK checks cached configuration  
+2. Sends validation request to Arbiter service  
+3. Redis updates request counters  
+4. Rules are evaluated  
+5. Decision is returned (ALLOW / BLOCK)  
+6. SDK returns result to your code  
+7. Analytics event is recorded  
+
+All of this is optimized to run in milliseconds.
+
+---
+
+## Common Mistakes
+
+-  Not calling `init()` before using `protect()`  
+-  Using unstable keys (like random values per request)  
+-  Exposing API keys on the frontend  
+-  Creating too many rules without clear purpose  
+
+---
+
+## Next Step
+
+Once installation is complete, move to **Quick Start** to see a full working example.

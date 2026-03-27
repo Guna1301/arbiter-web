@@ -15,16 +15,16 @@ export const docsNav: DocsSection[] = [
     items: [
       {
         title: "Introduction",
-        path: "/docs",
+        path: "/",
         end: true
       },
       {
         title: "Installation",
-        path: "/docs/installation"
+        path: "/installation"
       },
       {
         title: "Quick Start",
-        path: "/docs/quickstart"
+        path: "/quickstart"
       }
     ]
   },
@@ -33,15 +33,15 @@ export const docsNav: DocsSection[] = [
     items: [
       {
         title: "Projects",
-        path: "/docs/projects"
+        path: "/projects"
       },
       {
         title: "API Keys",
-        path: "/docs/api-keys"
+        path: "/api-keys"
       },
       {
         title: "Rate Limits",
-        path: "/docs/rate-limits"
+        path: "/rate-limits"
       }
     ]
   },
@@ -50,11 +50,11 @@ export const docsNav: DocsSection[] = [
     items: [
       {
         title: "Architecture",
-        path: "/docs/architecture"
+        path: "/architecture"
       },
       {
         title: "Analytics",
-        path: "/docs/analytics"
+        path: "/analytics"
       }
     ]
   }

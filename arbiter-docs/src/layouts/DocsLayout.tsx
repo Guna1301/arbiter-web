@@ -32,24 +32,33 @@ const components = {
   },
 }
 
+
 export default function DocsLayout() {
   return (
     <MDXProvider components={components}>
-      <div className="flex min-h-screen bg-zinc-950 text-zinc-100">
-
+      <div className="relative flex min-h-screen bg-zinc-950 text-zinc-100">
+        
         <DocsSidebar />
 
-        <main className="flex-1 px-12 py-10 max-w-4xl min-w-0 flex flex-col justify-between">
+        <div className="flex flex-1 min-w-0 justify-center">
+          <main className="w-full max-w-4xl px-6 py-10 md:px-12 flex flex-col flex-1">
+            
+            <div className="h-14 md:hidden" /> 
 
-          <article className="prose prose-invert max-w-none">
-            <Outlet />
-          </article>
+            <article className="prose prose-invert max-w-none flex-1">
+              <Outlet />
+            </article>
 
-          <DocsPager />
+            <div className="mt-auto pt-12">
+              <DocsPager />
+            </div>
+            
+          </main>
 
-        </main>
-
-        <TableOfContents />
+          <aside className="hidden xl:block w-64 shrink-0 px-6 py-10 sticky top-0 h-screen">
+            <TableOfContents />
+          </aside>
+        </div>
 
       </div>
     </MDXProvider>

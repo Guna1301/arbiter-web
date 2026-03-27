@@ -44,7 +44,7 @@ export default function TableOfContents() {
   }, [location.pathname])
 
   return (
-    <aside className="hidden xl:block w-64 border-l border-zinc-800 p-6 sticky top-0">
+    <aside className="hidden xl:block w-64 border-l border-zinc-800 p-6 sticky top-0 self-start h-screen">
 
       <p className="text-xs uppercase tracking-wider text-zinc-500 mb-4">
         On this page

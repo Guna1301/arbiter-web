@@ -9,7 +9,7 @@ import RateLimits from "../content/rate-limits.mdx"
 export default function DocsRoutes() {
   return (
     <Routes>
-      <Route path="/docs" element={<DocsLayout />}>
+      <Route path="/" element={<DocsLayout />}>
         <Route index element={<Introduction />} />
         <Route path="installation" element={<Installation />} />
         <Route path="quickstart" element={<Quickstart />} />
