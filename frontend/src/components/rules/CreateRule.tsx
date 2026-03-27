@@ -163,9 +163,8 @@ export default function CreateRule({ projectId }: { projectId: string }) {
                       className="w-full bg-zinc-900 border border-zinc-800 text-zinc-200 text-sm rounded-lg focus:ring-1 focus:ring-zinc-600 focus:border-zinc-600 block p-2.5 transition-colors appearance-none"
                     >
                       <option value="">Default (System chosen)</option>
-                      <option value="fixed_window">Fixed Window</option>
-                      <option value="sliding_window">Sliding Window</option>
-                      <option value="token_bucket">Token Bucket</option>
+                      <option value="leaky-bucket">Leaky Bucket</option>
+                      <option value="token-bucket">Token Bucket</option>
                     </select>
                   </div>
 

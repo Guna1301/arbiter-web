@@ -160,7 +160,7 @@ export default function LandingPage() {
                 <span className="text-zinc-500 font-normal">It runs inside your application as a decision layer.</span>
               </p>
               <p className="text-sm text-zinc-300 font-medium border-t border-zinc-800/80 pt-3">
-                You decide how to handle the response — <br/>
+                You decide how to handle the response - <br/>
                 <span className="text-zinc-500 font-normal">Arbiter does not enforce it automatically.</span>
               </p>
             </div>
