@@ -1,28 +1,108 @@
 import { Routes, Route } from "react-router-dom"
-import DocsLayout from "../layouts/DocsLayout"
+import { lazy, Suspense } from "react"
 
-import Introduction from "../content/introduction.mdx"
-import Installation from "../content/installation.mdx"
-import Quickstart from "../content/quickstart.mdx"
-import RateLimits from "../content/rate-limits.mdx"
-import Projects from "../content/projects.mdx"
-import ApiKeys from "../content/api-keys.mdx"
-import Architecture from "../content/architecture.mdx"
-import Analytics from "../content/analytics.mdx"
+const DocsLayout = lazy(() => import("../layouts/DocsLayout"))
+
+const Introduction = lazy(() => import("../content/introduction.mdx"))
+const Installation = lazy(() => import("../content/installation.mdx"))
+const Quickstart = lazy(() => import("../content/quickstart.mdx"))
+const RateLimits = lazy(() => import("../content/rate-limits.mdx"))
+const Projects = lazy(() => import("../content/projects.mdx"))
+const ApiKeys = lazy(() => import("../content/api-keys.mdx"))
+const Architecture = lazy(() => import("../content/architecture.mdx"))
+const AnalyticsPage = lazy(() => import("../content/analytics.mdx"))
+
+const Loader = () => (
+  <div className="flex items-center justify-center h-screen">
+    <p className="text-gray-500 text-sm">Loading...</p>
+  </div>
+)
 
 export default function DocsRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<DocsLayout />}>
-        <Route index element={<Introduction />} />
-        <Route path="installation" element={<Installation />} />
-        <Route path="quickstart" element={<Quickstart />} />
-        <Route path="rate-limits" element={<RateLimits />} />
-        <Route path="projects" element= {<Projects />} />
-        <Route path="api-keys" element={<ApiKeys />} />
-        <Route path="architecture" element={<Architecture />} />
-        <Route path="analytics" element={<Analytics />} />
-      </Route>
-    </Routes>
+    <Suspense fallback={<Loader />}>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={<Loader />}>
+              <DocsLayout />
+            </Suspense>
+          }
+        >
+          <Route
+            index
+            element={
+              <Suspense fallback={<Loader />}>
+                <Introduction />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="installation"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Installation />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="quickstart"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Quickstart />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="rate-limits"
+            element={
+              <Suspense fallback={<Loader />}>
+                <RateLimits />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="projects"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Projects />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="api-keys"
+            element={
+              <Suspense fallback={<Loader />}>
+                <ApiKeys />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="architecture"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Architecture />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="analytics"
+            element={
+              <Suspense fallback={<Loader />}>
+                <AnalyticsPage />
+              </Suspense>
+            }
+          />
+        </Route>
+      </Routes>
+    </Suspense>
   )
 }
