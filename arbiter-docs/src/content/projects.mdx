@@ -1,0 +1,111 @@
+# Projects
+
+A project represents a single application or service you want to protect with Arbiter.
+
+It's the main way Arbiter keeps things organized.
+
+---
+
+## Why projects matter
+
+Most systems have more than one service. For example:
+
+- an authentication service  
+- a payments service  
+- a public API  
+
+Each of these behaves differently and needs different levels of protection.
+
+Projects help you:
+
+- keep configurations separate  
+- apply different rules per service  
+- track analytics independently  
+- avoid mixing unrelated traffic  
+
+---
+
+## A simple example
+
+You might structure things like this:
+
+- Auth Service  
+  - strict limits for login and OTP  
+- Payment API  
+  - very strict limits and tighter control  
+- Public API  
+  - higher limits and more relaxed rules  
+
+Each one is its own project.
+
+---
+
+## What a project contains
+
+Every project includes:
+
+- Rules -> how requests are controlled  
+- API keys -> how your backend connects to Arbiter  
+- Analytics -> how traffic is tracked  
+
+Everything related to a service stays inside that project.
+
+---
+
+## How it works
+
+When you use Arbiter in your backend:
+
+1. You pass an API key to the SDK  
+2. That API key is linked to a specific project  
+3. Arbiter loads that project's configuration  
+4. All requests are validated using those rules  
+
+So the project decides how traffic is handled.
+
+---
+
+## Isolation between projects
+
+Projects don't affect each other.
+
+- Rules are not shared  
+- Analytics are separate  
+- API keys only work for one project  
+
+This keeps things predictable and safe.
+
+---
+
+## Best practices
+
+- Create one project per service  
+- Use clear and consistent rule names  
+- Keep sensitive services (like auth or payments) separate  
+- Use different API keys for different environments if needed  
+
+---
+
+## Common mistakes
+
+- Using a single project for everything  
+- Mixing unrelated endpoints in one project  
+- Reusing the same API key across services  
+
+---
+
+## Mental model
+
+Think of a project as a container for one service.
+
+It groups together:
+
+- its rules  
+- its keys  
+- its traffic data  
+
+---
+
+## Next step
+
+Now that you understand how things are organized, let's look at how projects are identified using API keys.

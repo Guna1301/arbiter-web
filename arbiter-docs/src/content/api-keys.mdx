@@ -1,0 +1,107 @@
+# API Keys
+
+API keys are how your backend connects to Arbiter.
+
+They identify your project and allow the SDK to fetch configuration and send data.
+
+---
+
+## What an API key does
+
+When you initialize the SDK with an API key:
+
+- Arbiter knows which project you're using  
+- It loads the correct rules and settings  
+- It associates all requests and analytics with that project  
+
+Without an API key, the SDK cannot function.
+
+---
+
+## How it works
+
+At a high level:
+
+1. Your backend sends the API key to Arbiter  
+2. Arbiter validates the key  
+3. If valid, it returns the project configuration  
+4. The SDK uses that configuration to enforce rules  
+
+This happens during initialization and when configs are refreshed.
+
+---
+
+## Example
+
+```ts
+import { createArbiterClient } from "arbiter-sdk";
+
+const arbiter = createArbiterClient({
+  apiKey: process.env.ARBITER_API_KEY
+});
+```
+
+---
+
+## Where to store API keys
+
+Always keep your API keys secure.
+
+- Store them in environment variables  
+- Do not commit them to your repository  
+- Do not expose them in frontend code  
+
+Example:
+
+```env
+ARBITER_API_KEY=arb_live_xxx
+```
+
+---
+
+## Using the right key
+
+Each project has its own API keys.
+
+Make sure:
+
+- Each service uses the correct project key  
+- You don't reuse keys across unrelated services  
+
+This keeps your configuration and analytics clean.
+
+---
+
+## Rotation and safety
+
+If a key is exposed:
+
+- Generate a new key from the dashboard  
+- Update your backend  
+- Stop using the old key  
+
+Regular rotation is a good practice for production systems.
+
+---
+
+## Common mistakes
+
+- Hardcoding API keys in source code  
+- Using the same key for multiple services  
+- Exposing keys in client-side applications  
+
+---
+
+## Mental model
+
+Think of an API key as the identity of your service.
+
+It tells Arbiter:
+
+> "This request belongs to this project. Apply its rules."
+
+---
+
+## Next step
+
+Now that your service is identified correctly, let's look at how traffic is controlled using rate limits.

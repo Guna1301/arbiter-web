@@ -1,13 +1,130 @@
+# Rate Limits
+
+Rate limiting controls how many requests a client can make within a given time.
+
+It is one of the core mechanisms Arbiter uses to protect your APIs.
 
 ---
 
-### rate-limits.mdx
+## Why rate limiting matters
 
-```mdx
-# Rate Limits
+Without rate limits, your APIs are vulnerable to:
 
-Arbiter supports multiple rate limiting algorithms:
+- Brute-force attacks (login, OTP)  
+- Spam and bot traffic  
+- Sudden traffic spikes  
+- Resource exhaustion  
 
+Rate limiting ensures your system stays stable and predictable.
+
+---
+
+## How it works in Arbiter
+
+You define rules like this:
+
+- limit -> number of requests  
+- window -> time duration  
+
+Example:
+
+- Rule: `login`  
+- Limit: `5`  
+- Window: `10 seconds`  
+
+This means a single client can only make 5 requests in 10 seconds.  
+If the limit is exceeded, further requests are blocked until the window resets.
+
+---
+
+## Choosing the right key
+
+Rate limiting is applied per **key**.
+
+This determines how requests are grouped.
+
+Common options:
+
+- `req.ip` -> limits per IP address  
+- `user.id` -> limits per user  
+- `apiKey` -> limits per client/application  
+
+Choosing the right key is important for correct behavior.
+
+---
+
+## What happens internally
+
+When a request is validated:
+
+1. Arbiter checks the rule configuration  
+2. A counter is updated in Redis  
+3. The current count is compared with the limit  
+4. A decision is returned -> allow or block  
+
+This process is designed to be fast and consistent across distributed systems.
+
+---
+
+## Algorithms
+
+Arbiter is designed to support standard rate limiting strategies such as:
+
+- Leaky Bucket  
 - Token Bucket
-- Leaky Bucket
-- Sliding Window
+
+These algorithms help balance strictness, fairness, and performance.
+
+If you want a deeper understanding of how these work and when to use them:
+
+[Rate Limiting: Concepts, Algorithms, and Distributed Challenges](https://dev.to/guna01/rate-limiting-concepts-algorithms-and-distributed-challenges-4gfl)
+
+---
+
+## Why Redis is used
+
+Rate limiting requires:
+
+- Fast counters  
+- Atomic updates  
+- Expiration handling  
+
+Redis provides all of this efficiently using operations like `INCR` and `EXPIRE`.
+
+This makes it suitable for real-time decision making.
+
+---
+
+## Best practices
+
+- Apply strict limits to sensitive endpoints (login, payments)  
+- Use more relaxed limits for public APIs  
+- Choose stable and meaningful keys  
+- Start simple, then adjust based on analytics  
+
+---
+
+## Common mistakes
+
+- Using random or changing keys  
+- Applying the same limit to all endpoints  
+- Ignoring different traffic patterns  
+- Setting limits too strict without monitoring  
+
+---
+
+## Mental model
+
+Rate limiting is not just about blocking requests.
+
+It’s about controlling traffic in a way that keeps your system:
+
+- stable  
+- fair  
+- predictable  
+
+---
+
+## Next step
+
+Now that you understand how traffic is controlled, let’s look at how Arbiter is structured internally in the Architecture section.
