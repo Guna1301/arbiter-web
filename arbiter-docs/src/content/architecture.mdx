@@ -1,0 +1,208 @@
+# Architecture
+
+This section explains how Arbiter is structured and how different parts of the system work together.
+
+Arbiter is designed as a distributed system with a clear separation between configuration and execution.
+
+---
+
+## System overview
+
+![Arbiter Architecture](/public/arc-1-diagram.png)
+
+At a high level:
+
+1. You configure projects, API keys, and rules from the dashboard  
+2. Your backend SDK fetches this configuration  
+3. Each request is validated through Arbiter services  
+4. Redis keeps track of request counts and limits  
+5. A decision is returned (allow or block)  
+
+---
+
+## Layers
+
+Arbiter is divided into three main layers:
+
+- Client layer (your backend + SDK)  
+- Control plane (arbiter-web)  
+- Data plane (arbiter-service)  
+
+Each layer has a specific responsibility.
+
+---
+
+## Client layer (SDK)
+
+The SDK runs inside your backend service.
+
+It acts as the entry point for Arbiter in your application.
+
+### Responsibilities
+
+- Intercepts incoming requests  
+- Fetches configuration using API key  
+- Sends validation requests  
+- Applies allow/block decisions  
+
+The SDK also caches configuration locally to reduce latency.
+
+---
+
+## Control plane (arbiter-web)
+
+The control plane is responsible for managing everything you configure.
+
+This is the part you interact with through the dashboard.
+
+### Responsibilities
+
+- Create and manage projects  
+- Generate API keys  
+- Store rules and configurations  
+- Receive analytics data  
+
+### Storage
+
+- PostgreSQL → stores projects, rules, and API keys  
+- Redis → caches configuration and metrics  
+
+The control plane does not handle request validation.
+
+---
+
+## Data plane (arbiter-service)
+
+The data plane is responsible for real-time request validation.
+
+It is designed to be stateless and horizontally scalable.
+
+### Components
+
+- Nginx (load balancer)  
+- Multiple arbiter-service instances  
+
+### Responsibilities
+
+- Rate limit checks  
+- Rule evaluation  
+- Abuse detection  
+- Decision engine (allow / block)  
+
+---
+
+## Redis (global store)
+
+Redis is shared across all arbiter-service instances.
+
+It is used for:
+
+- Tracking request counts  
+- Managing time windows  
+- Performing atomic operations (`INCR`, `EXPIRE`)  
+
+Because Redis is shared, all instances operate on consistent data.
+
+---
+
+## Request flow
+
+When a request comes in:
+
+1. Request hits your backend  
+2. SDK prepares validation request  
+3. Request goes to arbiter-service via load balancer  
+4. Service updates counters in Redis  
+5. Rules are evaluated  
+6. Decision is returned (allow or block)  
+7. SDK applies the decision  
+
+This flow is optimized to run in milliseconds.
+
+---
+
+## Config flow
+
+Configuration updates follow a different path:
+
+1. You update rules in the dashboard  
+2. Control plane stores them in PostgreSQL  
+3. Config is cached in Redis  
+4. SDK fetches config using API key  
+5. SDK refreshes periodically or on failure  
+
+This avoids hitting the control plane on every request.
+
+---
+
+## Deployment (current setup)
+
+Arbiter is currently deployed with:
+
+- arbiter-web (control plane) → handles dashboard + APIs  
+- arbiter-service (data plane) → multiple instances behind Nginx  
+- Redis → shared global store  
+- PostgreSQL → persistent storage  
+
+This setup allows horizontal scaling of the data plane without affecting configuration management.
+
+---
+
+## Design choices
+
+### Separation of control and data plane
+
+Configuration and request validation are handled independently.  
+This improves scalability and avoids bottlenecks.
+
+---
+
+### Shared Redis
+
+All instances use the same Redis store, which ensures:
+
+- Consistent rate limiting  
+- Accurate request counting  
+- Atomic operations  
+
+---
+
+### Stateless services
+
+arbiter-service instances do not store local state.  
+This makes scaling and failover simple.
+
+---
+
+### SDK-based integration
+
+Instead of forcing a gateway, Arbiter integrates directly into your backend using an SDK.  
+This keeps latency low and adoption simple.
+
+---
+
+## Failure handling
+
+- SDK can retry with backoff  
+- Cached configuration allows continued operation  
+- Optional fallback: allow requests if service is unreachable  
+
+---
+
+## Future improvements
+
+- Multi-region deployment  
+- Redis clustering  
+- Push-based config updates (Pub/Sub instead of polling)  
+
+---
+
+## Summary
+
+Arbiter combines:
+
+- Centralized configuration (control plane)  
+- Distributed validation (data plane)  
+- Fast in-memory storage (Redis)  
+
+to provide a scalable and reliable API protection system.

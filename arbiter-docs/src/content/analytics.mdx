@@ -1,0 +1,116 @@
+# Analytics
+
+Analytics helps you understand how your APIs are being used and how effective your rules are.
+
+It gives you visibility into traffic patterns, blocked requests, and potential abuse.
+
+---
+
+## What is tracked
+
+Arbiter collects key information about each request:
+
+- Total number of requests  
+- Allowed vs blocked requests  
+- Rule-wise usage (which rules are triggered most)  
+- Repeated violations (potential abuse)  
+
+This data helps you see what is actually happening in your system.
+
+---
+
+## Why analytics matters
+
+Without visibility, it’s hard to know:
+
+- Whether your limits are too strict or too loose  
+- If someone is trying to abuse your endpoints  
+- Which endpoints receive the most traffic  
+
+Analytics helps you make better decisions instead of guessing.
+
+---
+
+## How data flows
+
+When a request is processed:
+
+1. SDK sends an event after validation  
+2. Control plane receives the event  
+3. Data is stored in Redis and/or PostgreSQL  
+4. Dashboard reads and displays the data  
+
+This flow is designed to be lightweight so it doesn’t slow down requests.
+
+---
+
+## What you can learn
+
+Using analytics, you can:
+
+- Identify endpoints with high traffic  
+- Detect unusual spikes in requests  
+- Spot IPs or users repeatedly hitting limits  
+- Understand how often rules are triggered  
+
+---
+
+## Example scenarios
+
+- A sudden spike in login attempts -> possible brute-force attack  
+- High block rate on a rule -> limit may be too strict  
+- Same IP hitting limits repeatedly -> candidate for blocking  
+
+---
+
+## Using analytics effectively
+
+Start simple:
+
+- Add rules to important endpoints  
+- Monitor how often they trigger  
+- Adjust limits based on real traffic  
+
+Over time, this helps you fine-tune your system.
+
+---
+
+## Current scope
+
+Analytics currently focuses on:
+
+- Request counts  
+- Rule evaluations  
+- Allow vs block decisions  
+
+It is designed to be simple and useful without adding overhead.
+
+---
+
+## Future improvements
+
+Planned enhancements include:
+
+- Real-time streaming dashboards  
+- Alerts (email, Slack, etc.)  
+- Advanced filtering and drill-down  
+- Smarter abuse detection insights  
+
+---
+
+## Mental model
+
+Analytics is your feedback loop.
+
+- Rules control traffic  
+- Analytics shows the result  
+- You adjust based on what you see  
+
+---
+
+## Summary
+
+Analytics helps you move from:
+
+guessing -> understanding -> improving
+

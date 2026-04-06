@@ -79,10 +79,10 @@ export default function DocsSidebar() {
       <div className="p-4 border-t border-zinc-800 flex items-center justify-between text-xs text-zinc-300">
         <span>Arbiter v1.0</span>
         <div className="flex items-center gap-3">
-          <a href="https://x.com" target="_blank" rel="noreferrer" className="hover:text-white transition">
+          <a href="https://x.com/gsxvoid" target="_blank" rel="noreferrer" className="hover:text-white transition">
             <XIcon size={14} />
           </a>
-          <a href="https://github.com/Guna1301/arbiter-web" target="_blank" rel="noreferrer" className="hover:text-white transition">
+          <a href="https://github.com/Guna1301/arbiter" target="_blank" rel="noreferrer" className="hover:text-white transition">
             <GithubIcon size={14} />
           </a>
         </div>

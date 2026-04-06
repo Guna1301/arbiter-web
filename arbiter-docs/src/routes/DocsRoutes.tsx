@@ -7,6 +7,8 @@ import Quickstart from "../content/quickstart.mdx"
 import RateLimits from "../content/rate-limits.mdx"
 import Projects from "../content/projects.mdx"
 import ApiKeys from "../content/api-keys.mdx"
+import Architecture from "../content/architecture.mdx"
+import Analytics from "../content/analytics.mdx"
 
 export default function DocsRoutes() {
   return (
@@ -18,6 +20,8 @@ export default function DocsRoutes() {
         <Route path="rate-limits" element={<RateLimits />} />
         <Route path="projects" element= {<Projects />} />
         <Route path="api-keys" element={<ApiKeys />} />
+        <Route path="architecture" element={<Architecture />} />
+        <Route path="analytics" element={<Analytics />} />
       </Route>
     </Routes>
   )
