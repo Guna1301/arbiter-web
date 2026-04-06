@@ -1,5 +1,11 @@
 import DocsRoutes from "./routes/DocsRoutes"
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App() {
-  return <DocsRoutes />
+  return (
+    <div>
+      <DocsRoutes />
+      <Analytics />
+    </div>
+  )
 }
