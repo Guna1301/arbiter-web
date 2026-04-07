@@ -2,7 +2,7 @@
 
 This guide walks you through a complete flow, from creating a project to protecting your first endpoint.
 
-By the end, you’ll have a working setup where Arbiter is actively controlling requests.
+By the end, your backend will be using Arbiter to **control incoming requests in real time**.
 
 ---
 
@@ -20,9 +20,9 @@ Examples:
 
 Each project has its own:
 
-- Rules  
-- API keys  
-- Analytics  
+- Rules -> how traffic is controlled  
+- API keys -> how your backend connects  
+- Analytics -> how traffic is monitored  
 
 ---
 
@@ -30,17 +30,23 @@ Each project has its own:
 
 Inside your project, generate an API key.
 
-This key is used by the SDK to:
+This key is required by the SDK to:
 
 - Identify your project  
-- Fetch configuration  
-- Send analytics data  
+- Fetch rule configuration  
+- Send analytics events  
+
+Store it securely:
+
+```env
+ARBITER_API_KEY=arb_live_xxx
+```
 
 ---
 
 ## Step 3: Create a Rule
 
-Now define a rule that controls traffic.
+Define a rule in the dashboard.
 
 Example:
 
@@ -50,31 +56,46 @@ Example:
 
 This means:
 
-> A single user (or IP) can only make 5 login requests within 10 seconds.
+> A single client can make at most 5 requests within 10 seconds.
 
-If they exceed this limit → requests will be blocked.
+After that, requests will be blocked until the window resets.
 
 ---
 
-## Step 4: Initialize Arbiter in Your Backend
+## Step 4: Initialize Arbiter
+
+Install the SDK:
+
+```bash
+npm install arbiter-sdk
+```
+
+Initialize it in your backend:
 
 ```ts
 import { createArbiterClient } from "arbiter-sdk";
 
 const arbiter = createArbiterClient({
-  apiKey: process.env.ARBITER_API_KEY
+  apiKey: process.env.ARBITER_API_KEY as string
 });
 
 await arbiter.init();
 ```
 
-At this point, your backend is connected to Arbiter.
+### What `init()` does
+
+- Validates API key  
+- Fetches project configuration  
+- Caches rules locally  
+- Prepares request validation pipeline  
+
+This step ensures low-latency decisions during runtime.
 
 ---
 
 ## Step 5: Protect an Endpoint
 
-Apply protection to your route:
+Use `arbiter.protect()` inside your route:
 
 ```ts
 app.post("/login", async (req, res) => {
@@ -85,68 +106,106 @@ app.post("/login", async (req, res) => {
 
   if (!result.allowed) {
     return res.status(429).json({
-      message: "Too many requests. Try again later."
+      message: "Too many requests",
+      decision: result
     });
   }
 
-  // Continue your normal login logic
+  // Continue normal logic
 });
+```
+
+---
+
+## Request Input
+
+```ts
+type ProtectInput = {
+  key: string;   // unique identifier (IP, userId, token)
+  rule: string;  // rule name defined in dashboard
+};
+```
+
+---
+
+## Response Format
+
+```ts
+type ProtectResponse = {
+  allowed: boolean;
+  remaining: number;
+  resetIn: number;   // seconds
+  reason?: string;
+};
+```
+
+Example:
+
+```json
+{
+  "allowed": false,
+  "remaining": 0,
+  "resetIn": 6,
+  "reason": "rate_limit_exceeded"
+}
 ```
 
 ---
 
 ## What is `key`?
 
-The `key` identifies **who is making the request**.
+The `key` determines **who is being rate limited**.
 
 Common choices:
 
-- `req.ip` → per IP limiting  
-- `user.id` → per user limiting  
-- `apiKey` → per client limiting  
+- `req.ip` -> per IP limiting  
+- `user.id` -> per user limiting  
+- `apiKey` -> per client/application  
 
-Choosing the right key is important because rate limiting is applied per key.
+### Important
+
+- Use a **stable identifier**  
+- Do not use random or changing values  
+- Incorrect keys lead to incorrect rate limiting  
 
 ---
 
 ## What Happens Internally?
 
-When a request hits your `/login` endpoint:
+When a request is processed:
 
-1. SDK receives the request context  
-2. It looks up the `login` rule from cached config  
-3. Sends validation request to Arbiter service  
-4. Arbiter increments request count in Redis  
-5. Checks if limit is exceeded  
-6. Returns decision → ALLOW or BLOCK  
-7. SDK returns result to your code  
-8. Analytics event is recorded  
+1. SDK checks cached rule configuration  
+2. Sends validation request to Arbiter service  
+3. Service updates counters in Redis  
+4. Rule is evaluated  
+5. Decision is returned (ALLOW / BLOCK)  
+6. SDK returns result  
+7. Analytics event is recorded  
 
-This entire flow is designed to be fast and consistent across services.
+This flow is optimized for low latency and consistency across distributed systems.
 
 ---
 
-## Testing It
+## Testing Your Setup
 
-Try sending multiple requests quickly:
+Send multiple requests quickly to your endpoint:
 
-- First few → allowed  
-- After limit → blocked (HTTP 429)  
+- First few -> allowed  
+- After limit -> blocked (HTTP 429)  
 
 This confirms your rule is working correctly.
 
 ---
 
-## Pro Tip
+## Common Mistakes
 
-Start simple:
-
-- Add rules only to sensitive endpoints first (login, signup)  
-- Monitor analytics  
-- Gradually expand protection to other routes  
+- Not calling `init()` before using `protect()`  
+- Using unstable keys (e.g. random values)  
+- Rule name mismatch between dashboard and code  
+- Exposing API key on frontend  
 
 ---
 
 ## Next Step
 
-Now that you have a working setup, understand how Arbiter organizes everything using **Projects**.
+Now that you have a working setup, learn how Arbiter organizes services using **Projects**.
