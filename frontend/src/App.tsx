@@ -13,11 +13,17 @@ import ProjectDetails from "./pages/dashboard/ProjectDetails";
 import LandingPage from "./pages/LandingPage"; 
 
 import { setAuthTokenGetter } from "./lib/authToken";
+import { useEffect } from "react";
 
 export default function App() {
-  const { getToken } = useAuth();
+  const { getToken, isLoaded } = useAuth();
 
-  setAuthTokenGetter(() => getToken());
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    setAuthTokenGetter(getToken);
+  }, [getToken, isLoaded]);
+
 
   return (
     <Routes>

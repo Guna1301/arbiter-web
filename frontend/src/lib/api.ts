@@ -1,10 +1,10 @@
 import axios from "axios";
 import { getAuthToken } from "./authToken";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
 export const api = axios.create({
-  baseURL: `http://localhost:5000/api`,
+  baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -13,6 +13,7 @@ export const api = axios.create({
 api.interceptors.request.use(async (config) => {
   try {
     const token = await getAuthToken();
+    console.log("TOKEN IN INTERCEPTOR:", token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

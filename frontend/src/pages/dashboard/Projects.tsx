@@ -4,6 +4,7 @@ import ProjectCard from "../../components/project/ProjectCard"
 import CreateProjectDialog from "../../components/project/CreateProjectDialog"
 import ProjectSkeleton from "../../components/skeletons/ProjectSkeleton"
 import { ChevronLeft, ChevronRight, Search, X } from "lucide-react"
+import { useAuth } from "@clerk/react"
 
 export default function Projects() {
   const [page, setPage] = useState(1)
@@ -23,8 +24,10 @@ export default function Projects() {
     )
   }, [data, searchQuery])
 
-  if (isLoading) {
-    return <ProjectSkeleton />
+  const { isLoaded, isSignedIn } = useAuth();
+
+  if (!isLoaded || !isSignedIn) {
+    return <ProjectSkeleton />;
   }
 
   return (

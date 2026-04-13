@@ -1,7 +1,7 @@
 import { getAuth, clerkClient } from "@clerk/express";
 
 export const resolveClerkUser = async (req: any) => {
-  const { userId } = getAuth(req);
+  const userId = req.userId;
 
   if (!userId) {
     return null;

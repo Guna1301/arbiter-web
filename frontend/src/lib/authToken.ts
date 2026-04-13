@@ -1,10 +1,15 @@
-let getTokenFn: (() => Promise<string | null>) | null = null;
+type TokenGetter = (options?: any) => Promise<string | null>;
 
-export const setAuthTokenGetter = (fn: () => Promise<string | null>) => {
-  getTokenFn = fn;
-};
+let authTokenGetter: TokenGetter | null = null;
 
-export const getAuthToken = async (): Promise<string | null> => {
-  if (!getTokenFn) return null;
-  return await getTokenFn();
-};
+
+export function setAuthTokenGetter(getter: TokenGetter) {
+  authTokenGetter = getter;
+}
+
+
+
+export async function getAuthToken(): Promise<string | null> {
+  if (!authTokenGetter) return null;
+  return await authTokenGetter();
+}
