@@ -15,6 +15,8 @@ import LandingPage from "./pages/LandingPage";
 import { setAuthTokenGetter } from "./lib/authToken";
 import { useEffect } from "react";
 
+import { Analytics } from '@vercel/analytics/react';
+
 export default function App() {
   const { getToken, isLoaded } = useAuth();
 
@@ -26,27 +28,30 @@ export default function App() {
 
 
   return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      
-      <Route path="/sso-callback" element={<AuthenticateWithRedirectCallback />} />
-      <Route path="/auth-callback" element={<AuthCallbackPage />} />
-      <Route path="/auth" element={<Auth />} />
+    <>
+      <Analytics />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        
+        <Route path="/sso-callback" element={<AuthenticateWithRedirectCallback />} />
+        <Route path="/auth-callback" element={<AuthCallbackPage />} />
+        <Route path="/auth" element={<Auth />} />
 
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <DashboardLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<Projects />} />
-        <Route path="projects" element={<Projects />} />
-        <Route path="projects/:projectId" element={<ProjectDetails />} />
-      </Route>
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Projects />} />
+          <Route path="projects" element={<Projects />} />
+          <Route path="projects/:projectId" element={<ProjectDetails />} />
+        </Route>
 
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
   );
 }
