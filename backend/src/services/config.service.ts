@@ -5,8 +5,8 @@ type RuleConfig = {
   limit: number
   window: number
   algorithm: string
-  policy: string
-  abuse: boolean
+  policy: any
+  abuse: any
 }
 
 type ProjectConfig = {
@@ -50,9 +50,9 @@ export async function getProjectConfig(
   const config: ProjectConfig = {
     global: {
       algorithm: project.defaultAlgorithm ?? "token_bucket",
-      whitelist: project.whitelist ?? [],
-      blacklist: project.blacklist ?? [],
-      abuse: project.abuse ?? false
+      whitelist: (project.whitelist as any) ?? [],
+      blacklist: (project.blacklist as any) ?? [],
+      abuse: (project.abuse as any) ?? false
     },
     rules: compiledRules
   };

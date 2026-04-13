@@ -38,9 +38,10 @@ export const getKeys = async (req:Request,res:Response) => {
 
 export const revokeKey = async (req: Request, res: Response) => {
   const { keyId } = req.params;
+  const id = Array.isArray(keyId) ? keyId[0] : keyId;
 
   await prisma.apiKey.update({
-    where: { id: keyId },
+    where: { id },
     data: { status: "revoked" }
   });
 

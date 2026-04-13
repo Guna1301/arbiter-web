@@ -19,9 +19,7 @@ router.post("/protect", validateApiKey, async (req:any,res)=>{
     });
   }
 
-  const ruleConfig = config?.rules?.find(
-    (r:any)=> r.name === rule
-  );
+  const ruleConfig = config?.rules?.[rule];
 
   if(!ruleConfig){
     return res.status(404).json({

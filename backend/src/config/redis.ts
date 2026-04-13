@@ -1,4 +1,6 @@
-import Redis from "ioredis";
+import IORedis from "ioredis";
+
+const Redis = IORedis as any;
 
 if (!process.env.REDIS_URL) {
   throw new Error("REDIS_URL not set");
