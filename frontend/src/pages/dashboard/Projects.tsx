@@ -11,7 +11,7 @@ export default function Projects() {
   const limit = 10 
   const [searchQuery, setSearchQuery] = useState("")
 
-  const { data, isLoading } = useProjects({ page, limit })
+  const { data } = useProjects({ page, limit })
   
 
   const filteredProjects = useMemo(() => {

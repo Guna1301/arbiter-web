@@ -34,7 +34,7 @@ export default function StatusChart({ data }: any) {
                 dataKey="value"
                 stroke="none"
               >
-                {formatted.map((entry, index) => (
+                {formatted.map((_, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>

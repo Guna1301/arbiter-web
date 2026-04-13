@@ -74,7 +74,7 @@ export default function RuleTable({
         name: editName,
         limit: Number(editLimit),
         window: Number(editWindow),
-        algorithm: editAlgorithm || null,
+        algorithm: editAlgorithm || undefined,
         policy: parsedPolicy || null,
         abuse: parsedAbuse || null
       }
