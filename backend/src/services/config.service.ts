@@ -5,8 +5,14 @@ type RuleConfig = {
   limit: number
   window: number
   algorithm: string
-  policy: any
-  abuse: any
+  policy: {
+    whitelist: string[]
+    blacklist: string[]
+  } | null
+  abuse: {
+    threshold: number
+    banTime: number
+  } | null
 }
 
 type ProjectConfig = {
@@ -14,9 +20,53 @@ type ProjectConfig = {
     algorithm: string
     whitelist: string[]
     blacklist: string[]
-    abuse: boolean
+    abuse: {
+      threshold: number
+      banTime: number
+    } | null
   }
   rules: Record<string, RuleConfig>
+}
+
+function normalizeList(value: unknown): string[] {
+  return Array.isArray(value)
+    ? value.filter((item): item is string => typeof item === "string")
+    : []
+}
+
+function normalizePolicy(value: unknown) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return null
+  }
+
+  const policy = value as Record<string, unknown>
+
+  return {
+    whitelist: normalizeList(policy.whitelist),
+    blacklist: normalizeList(policy.blacklist)
+  }
+}
+
+function normalizeAbuse(value: unknown) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return null
+  }
+
+  const abuse = value as Record<string, unknown>
+
+  if (
+    typeof abuse.threshold !== "number" ||
+    typeof abuse.banTime !== "number" ||
+    abuse.threshold <= 0 ||
+    abuse.banTime <= 0
+  ) {
+    return null
+  }
+
+  return {
+    threshold: abuse.threshold,
+    banTime: abuse.banTime
+  }
 }
 
 export async function getProjectConfig(
@@ -42,17 +92,17 @@ export async function getProjectConfig(
       limit: rule.limit,
       window: rule.window,
       algorithm: rule.algorithm ?? project.defaultAlgorithm ?? "token_bucket",
-      policy: rule.policy ?? "block",
-      abuse: rule.abuse ?? false
+      policy: normalizePolicy(rule.policy),
+      abuse: normalizeAbuse(rule.abuse)
     };
   }
 
   const config: ProjectConfig = {
     global: {
       algorithm: project.defaultAlgorithm ?? "token_bucket",
-      whitelist: (project.whitelist as any) ?? [],
-      blacklist: (project.blacklist as any) ?? [],
-      abuse: (project.abuse as any) ?? false
+      whitelist: normalizeList(project.whitelist),
+      blacklist: normalizeList(project.blacklist),
+      abuse: normalizeAbuse(project.abuse)
     },
     rules: compiledRules
   };
