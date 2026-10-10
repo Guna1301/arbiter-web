@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { AuthenticateWithRedirectCallback, useAuth } from "@clerk/react";
 
 import DashboardLayout from "./layout/DashboardLayout";
@@ -11,6 +11,7 @@ import Auth from "./pages/auth/AuthPage";
 import ProjectDetails from "./pages/dashboard/ProjectDetails";
 
 import LandingPage from "./pages/LandingPage"; 
+import NotFoundPage from "./pages/404/NotFoundPage";
 
 import { setAuthTokenGetter } from "./lib/authToken";
 import { useEffect } from "react";
@@ -50,7 +51,7 @@ export default function App() {
           <Route path="projects/:projectId" element={<ProjectDetails />} />
         </Route>
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );

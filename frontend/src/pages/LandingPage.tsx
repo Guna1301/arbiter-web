@@ -139,7 +139,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="relative z-10 py-24 bg-[#030303] border-t border-zinc-900 px-6">
+      <section className="relative z-10 py-24 px-6">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
           <div className="sticky top-32">
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-6 text-zinc-100 leading-snug">
@@ -178,7 +178,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="relative z-10 py-32 bg-[#050505] border-t border-zinc-900 px-6 overflow-hidden">
+      <section className="relative z-10 overflow-hidden py-32 px-6">
         <div className="max-w-6xl mx-auto space-y-32">
           
           <div className="text-center mb-16">
@@ -259,7 +259,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="relative z-10 py-24 bg-[#030303] border-t border-zinc-900 px-6">
+      <section className="relative z-10 py-24 px-6">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <AnalyticsMock />
           <div className="order-1 lg:order-2 sticky top-32">
@@ -279,7 +279,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="relative z-10 py-32 bg-[#050505] border-t border-zinc-900 px-6">
+      <section className="relative z-10 py-32 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-zinc-100 mb-6">
             Start using Arbiter
@@ -298,7 +298,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <footer className="relative z-10 border-t border-zinc-900 py-12 px-6 bg-[#030303]">
+      <footer className="relative z-10 py-12 px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
             <Link to="/">
