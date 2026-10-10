@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Navigate, Routes, Route } from "react-router-dom";
 import { AuthenticateWithRedirectCallback, useAuth } from "@clerk/react";
 
 import DashboardLayout from "./layout/DashboardLayout";
@@ -18,8 +18,30 @@ import { useEffect } from "react";
 
 import { Analytics } from '@vercel/analytics/react';
 
+function HomeRoute({
+  isLoaded,
+  isSignedIn,
+}: {
+  isLoaded: boolean;
+  isSignedIn: boolean | undefined;
+}) {
+  if (!isLoaded) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#030303] text-zinc-400">
+        Loading...
+      </div>
+    );
+  }
+
+  if (isSignedIn) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <LandingPage />;
+}
+
 export default function App() {
-  const { getToken, isLoaded } = useAuth();
+  const { getToken, isLoaded, isSignedIn } = useAuth();
 
   useEffect(() => {
     if (!isLoaded) return;
@@ -32,7 +54,10 @@ export default function App() {
     <>
       <Analytics />
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/"
+          element={<HomeRoute isLoaded={isLoaded} isSignedIn={isSignedIn} />}
+        />
         
         <Route path="/sso-callback" element={<AuthenticateWithRedirectCallback />} />
         <Route path="/auth-callback" element={<AuthCallbackPage />} />
