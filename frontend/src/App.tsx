@@ -1,23 +1,34 @@
 import { Navigate, Routes, Route } from "react-router-dom";
 import { AuthenticateWithRedirectCallback, useAuth } from "@clerk/react";
-
-import DashboardLayout from "./layout/DashboardLayout";
-import Projects from "./pages/dashboard/Projects";
-
+import { lazy, Suspense, useEffect } from "react";
 
 import ProtectedRoute from "./components/auth/ProtectedRoute";
-import AuthCallbackPage from "./pages/auth/AuthCallbackPage";
-import Auth from "./pages/auth/AuthPage";
-import ProjectDetails from "./pages/dashboard/ProjectDetails";
-
-import LandingPage from "./pages/LandingPage"; 
-import NotFoundPage from "./pages/404/NotFoundPage";
-import SiteInfoPage from "./pages/SiteInfoPage";
 
 import { setAuthTokenGetter } from "./lib/authToken";
-import { useEffect } from "react";
 
 import { Analytics } from '@vercel/analytics/react';
+
+const DashboardLayout = lazy(() => import("./layout/DashboardLayout"));
+const Projects = lazy(() => import("./pages/dashboard/Projects"));
+const ProjectDetails = lazy(() => import("./pages/dashboard/ProjectDetails"));
+const AuthCallbackPage = lazy(() => import("./pages/auth/AuthCallbackPage"));
+const Auth = lazy(() => import("./pages/auth/AuthPage"));
+const LandingPage = lazy(() => import("./pages/LandingPage"));
+const NotFoundPage = lazy(() => import("./pages/404/NotFoundPage"));
+const SiteInfoPage = lazy(() => import("./pages/SiteInfoPage"));
+
+function LoadingScreen() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-[#030303] text-zinc-100">
+      <div className="text-center">
+        <p className="mb-2 text-lg font-semibold tracking-tight">Arbiter</p>
+        <p className="font-mono text-xs uppercase tracking-[0.12em] text-zinc-500">
+          Loading...
+        </p>
+      </div>
+    </div>
+  );
+}
 
 function HomeRoute({
   isLoaded,
@@ -27,11 +38,7 @@ function HomeRoute({
   isSignedIn: boolean | undefined;
 }) {
   if (!isLoaded) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#030303] text-zinc-400">
-        Loading...
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   if (isSignedIn) {
@@ -54,35 +61,37 @@ export default function App() {
   return (
     <>
       <Analytics />
-      <Routes>
-        <Route
-          path="/"
-          element={<HomeRoute isLoaded={isLoaded} isSignedIn={isSignedIn} />}
-        />
+      <Suspense fallback={<LoadingScreen />}>
+        <Routes>
+          <Route
+            path="/"
+            element={<HomeRoute isLoaded={isLoaded} isSignedIn={isSignedIn} />}
+          />
         
-        <Route path="/sso-callback" element={<AuthenticateWithRedirectCallback />} />
-        <Route path="/auth-callback" element={<AuthCallbackPage />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/about" element={<SiteInfoPage page="about" />} />
-        <Route path="/contact" element={<SiteInfoPage page="contact" />} />
-        <Route path="/privacy" element={<SiteInfoPage page="privacy" />} />
-        <Route path="/terms" element={<SiteInfoPage page="terms" />} />
+          <Route path="/sso-callback" element={<AuthenticateWithRedirectCallback />} />
+          <Route path="/auth-callback" element={<AuthCallbackPage />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/about" element={<SiteInfoPage page="about" />} />
+          <Route path="/contact" element={<SiteInfoPage page="contact" />} />
+          <Route path="/privacy" element={<SiteInfoPage page="privacy" />} />
+          <Route path="/terms" element={<SiteInfoPage page="terms" />} />
 
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<Projects />} />
-          <Route path="projects" element={<Projects />} />
-          <Route path="projects/:projectId" element={<ProjectDetails />} />
-        </Route>
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Projects />} />
+            <Route path="projects" element={<Projects />} />
+            <Route path="projects/:projectId" element={<ProjectDetails />} />
+          </Route>
 
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
     </>
   );
 }

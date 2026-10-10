@@ -42,7 +42,7 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 text-xs font-mono text-zinc-400 mb-8">
             <span className="flex h-1.5 w-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span>
-            v1.0 released
+            v1.2.0 released
           </div>
           
           <h1 className="text-5xl md:text-7xl font-semibold tracking-tight mb-6 text-zinc-100 leading-[1.1]">
@@ -304,7 +304,7 @@ export default function LandingPage() {
             About Arbiter
           </p>
           <h2 className="mb-4 text-2xl font-semibold text-zinc-100">
-            API protection maintained by Guna Sai.
+            maintained by Guna Sai.
           </h2>
           <p className="max-w-3xl leading-relaxed text-zinc-400">
             Arbiter is an independent developer project for rate limiting and
