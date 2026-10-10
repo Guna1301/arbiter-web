@@ -12,6 +12,7 @@ import ProjectDetails from "./pages/dashboard/ProjectDetails";
 
 import LandingPage from "./pages/LandingPage"; 
 import NotFoundPage from "./pages/404/NotFoundPage";
+import SiteInfoPage from "./pages/SiteInfoPage";
 
 import { setAuthTokenGetter } from "./lib/authToken";
 import { useEffect } from "react";
@@ -62,6 +63,10 @@ export default function App() {
         <Route path="/sso-callback" element={<AuthenticateWithRedirectCallback />} />
         <Route path="/auth-callback" element={<AuthCallbackPage />} />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/about" element={<SiteInfoPage page="about" />} />
+        <Route path="/contact" element={<SiteInfoPage page="contact" />} />
+        <Route path="/privacy" element={<SiteInfoPage page="privacy" />} />
+        <Route path="/terms" element={<SiteInfoPage page="terms" />} />
 
         <Route
           path="/dashboard"

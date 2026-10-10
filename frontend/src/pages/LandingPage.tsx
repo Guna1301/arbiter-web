@@ -298,6 +298,29 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <section className="relative z-10 px-6 pb-20">
+        <div className="mx-auto max-w-5xl rounded-2xl border border-zinc-800/80 bg-zinc-950/50 p-8 md:p-10">
+          <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-blue-400">
+            About Arbiter
+          </p>
+          <h2 className="mb-4 text-2xl font-semibold text-zinc-100">
+            API protection maintained by Guna Sai.
+          </h2>
+          <p className="max-w-3xl leading-relaxed text-zinc-400">
+            Arbiter is an independent developer project for rate limiting and
+            API security decisions. It runs inside your backend and returns
+            structured results your application can enforce.
+          </p>
+          <p className="mt-4 text-sm text-zinc-500">
+            Questions or support?{" "}
+            <Link to="/contact" className="text-zinc-200 underline underline-offset-4 hover:text-white">
+              Contact the maintainer
+            </Link>
+            .
+          </p>
+        </div>
+      </section>
+
       <footer className="relative z-10 py-12 px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
@@ -310,6 +333,10 @@ export default function LandingPage() {
           </div>
           <div className="flex gap-6 text-sm font-medium text-zinc-500">
             <a href={docsBaseUrl} target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200 transition-colors">Documentation</a>
+            <Link to="/about" className="hover:text-zinc-200 transition-colors">About</Link>
+            <Link to="/contact" className="hover:text-zinc-200 transition-colors">Contact</Link>
+            <Link to="/privacy" className="hover:text-zinc-200 transition-colors">Privacy</Link>
+            <Link to="/terms" className="hover:text-zinc-200 transition-colors">Terms</Link>
             <a href="https://github.com/Guna1301/arbiter" target="_blank" rel="noreferrer" className="hover:text-zinc-200 transition-colors">GitHub</a>
             <a href="https://npmjs.com/package/arbiter-sdk" target="_blank" rel="noreferrer" className="hover:text-zinc-200 transition-colors">NPM</a>
           </div>
